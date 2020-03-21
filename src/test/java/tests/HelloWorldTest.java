@@ -1,6 +1,9 @@
+package tests;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import app.HelloWorld;
 
 public class HelloWorldTest {
 
