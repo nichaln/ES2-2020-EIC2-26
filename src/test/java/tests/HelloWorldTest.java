@@ -18,6 +18,7 @@ public class HelloWorldTest {
 	@Test
 	public void testMain() {
 		HelloWorld hw = new HelloWorld();
+		hw.main(null);
 	}
 
 }
