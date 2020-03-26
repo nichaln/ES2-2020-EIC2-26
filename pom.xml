@@ -5,34 +5,17 @@
 	<groupId>ES2-2020-EIC2-26</groupId>
 	<artifactId>ES2-2020-EIC2-26</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<build>
-	<plugin>
-		<groupId>org.jacoco</groupId>
-		<artifactId>jacoco-maven-plugin</artifactId>
-		<version>0.8.2</version>
-		<executions>
-			<execution>
-				<goals>
-					<goal>prepare-agent</goal>
-				</goals>
-			</execution>
-			<!-- attached to Maven test phase -->
-			<execution>
-				<id>report</id>
-				<phase>test</phase>
-				<goals>
-					<goal>report</goal>
-				</goals>
-			</execution>
-		</executions>
-	</plugin>
-	</build>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.13</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.5</version>
 		</dependency>
 	</dependencies>
 </project>
