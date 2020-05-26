@@ -1,5 +1,6 @@
 def dockeruser = "nanokiscteiul"
-def imagename = "ubuntu:16"
+def mysqlimage = "ubuntu:16"
+def wordpressimage = "wordpress:latest"
 def container = "wordpress"
 node {
    echo 'Building Apache Docker Image'
@@ -8,10 +9,14 @@ stage('Git Checkout') {
     git 'https://github.com/nanok-iscteiul/ES2-2020-EIC2-26'
     }
     
-stage('Build Docker Image'){
-     powershell "docker build -t  ${imagename} ."
+stage('Build mysql Image'){
+     powershell "docker build -t  ${mysqlimage} ."
     }
-    
+   
+stage('Build wordpress image'){
+     powershell "docker build -t ${wordpressimage} ." 
+    }
+
 stage('Stop Existing Container'){
      powershell "docker stop ${container}"
     }
