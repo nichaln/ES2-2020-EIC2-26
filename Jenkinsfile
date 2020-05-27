@@ -39,6 +39,4 @@ stage('Docker Login and Push Image'){
     }
     powershell "docker push ${dockeruser}/ubuntu:16.04"
     }
-
-}
 }
