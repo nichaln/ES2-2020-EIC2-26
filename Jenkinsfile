@@ -1,7 +1,6 @@
 def dockeruser = "nanokiscteiul"
-def mysqlimage = "mysql:5.7"
-def wordpressimage = "wordpress:latest"
-def container = "wordpress"
+def imagename = "mysql:5.7"
+def container = "projeto"
 node {
    echo 'Building Apache Docker Image'
 
