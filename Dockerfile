@@ -1,10 +1,4 @@
-# Source Image name
-from ubuntu:16.04
-# Mainter Name
-maintainer Amar Singh
-# Command to update and install Apache packages
-RUN apt-get update && apt-get install apache2 -y
-# open port 
-EXPOSE 80
-# Command to run Apache server in background
-CMD /usr/sbin/apache2ctl -D FOREGROUND
+FROM openjdk:7
+COPY C:/Users/nicha/.jenkins/workspace/Projeto-ExecutávelJar/target/ES2-2020-EIC2-26-0.0.1-SNAPSHOT.jar /usr/src/myapp
+WORKDIR /usr/src/myapp
+CMD ["java", "-jar", "ES2-2020-EIC2-26-0.0.1-SNAPSHOT.jar"]
