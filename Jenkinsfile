@@ -1,5 +1,5 @@
 def dockeruser = "nanokiscteiul"
-def mysqlimage = "ubuntu:16"
+def mysqlimage = "mysql:5.7"
 def wordpressimage = "wordpress:latest"
 def container = "wordpress"
 node {
