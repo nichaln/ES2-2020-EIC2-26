@@ -1,5 +1,5 @@
 def dockeruser = "nanokiscteiul"
-def imagename = "imagemProjeto"
+def imagename = "imagemprojeto"
 def container = "projeto"
 node {
    echo 'Building Docker Image'
