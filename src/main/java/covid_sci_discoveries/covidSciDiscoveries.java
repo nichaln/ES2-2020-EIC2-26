@@ -1,6 +1,8 @@
 package covid_sci_discoveries;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -14,11 +16,9 @@ public class covidSciDiscoveries {
 	
 	private InputStream[] sites;
 	
-	public void readPDF() throws IOException {
+	/*public void readPDF() throws IOException {
 		
-		initializeSites();
-		//InputStream is = new URL ("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42509?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%271-s2.0-S1755436517301135-main.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200610T150000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200610%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=8fb59a8ed8f9fb25f041cccca802022c396d5a792fa8b78523d6b683ac2219a4").openStream();
-		
+		initializeSites();	
 		for (int i = 0; i<sites.length; i++) {
 			
 		InputStream is = sites[i];	
@@ -39,8 +39,24 @@ public class covidSciDiscoveries {
 		document.close();
 		}
 		
+	}*/
+	
+	//Metodo para escrever uma linha na tabela html
+	public String getLine(int i) throws IOException {
+		initializeSites();	
+		InputStream is = sites[i];
+		PDDocument document = PDDocument.load(is);
+		PDDocumentInformation info = document.getDocumentInformation();
+		document.close();
+		return "  <tr>\r\n" + 
+	    		"    <td>"+ info.getTitle() +"</td>\r\n" + 
+	    		"    <td>"+ info.getCreator() +"</td>\r\n" + 
+	    		"    <td>"+ (info.getCreationDate().getTime().getYear() +1900) +"</td>\r\n" +
+	    		"    <td>"+ info.getAuthor() +"</td>\r\n" +  
+	    		"  </tr>\r\n";
 	}
 	
+	//Metodo para inicializar os documentos pdf
 	public void initializeSites() throws MalformedURLException, IOException {
 		sites = new InputStream[4];
 		sites[0] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42509?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%271-s2.0-S1755436517301135-main.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200610T150000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200610%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=8fb59a8ed8f9fb25f041cccca802022c396d5a792fa8b78523d6b683ac2219a4").openStream();
@@ -49,14 +65,51 @@ public class covidSciDiscoveries {
 		sites[3] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42528?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27biology-09-00094.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200610T150000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200610%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=66c5738b1d1b31f4c0b64cc1617bdaa59210727be18c31132f46d21f9583ed1d").openStream();
 	}
 	
-	public static void main (String[]args) {
+	//Metodo que escreve o html todo para o ficheiro webTable.html
+	public void writeHTML() {
+		FileWriter fWriter = null;
+		BufferedWriter writer = null;
 		try {
-			covidSciDiscoveries test = new covidSciDiscoveries();
-			test.readPDF();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(getLine(0));
+		    fWriter = new FileWriter("C:\\Users\\katsa\\git\\ES2-2020-EIC2-26\\src\\main\\java\\covid_sci_discoveries\\webTable.html");
+		    writer = new BufferedWriter(fWriter);
+		    writer.write("<!DOCTYPE html>\r\n" + 
+		    		"<html>\r\n" + 
+		    		"<head>\r\n" + 
+		    		"<meta charset=\"ISO-8859-1\">\r\n" + 
+		    		"<title>COVID discoveries</title>\r\n" + 
+		    		"</head>\r\n" + 
+		    		"\r\n" + 
+		    		"<style>\r\n" + 
+		    		"table, th, td {\r\n" + 
+		    		"  border: 1px solid black;\r\n" + 
+		    		"}\r\n" + 
+		    		"\r\n" + 
+		    		"</style>\r\n" + 
+		    		"<body>\r\n" + 
+		    		"\r\n" + 
+		    		"<table style=\"width:60%\">\r\n" + 
+		    		"  <tr>\r\n" + 
+		    		"    <th>Article Title</th>\r\n" + 
+		    		"    <th>Journal Name</th>\r\n" + 
+		    		"    <th>Publication Year</th>\r\n" + 
+		    		"    <th>Authors</th>\r\n" + 
+		    		"  </tr>\r\n" + 
+		    		getLine(0) + getLine(1) + getLine(2) + getLine(3) +
+		    		"</table>\r\n" + 
+		    		"</body>\r\n" + 
+		    		"</html>");
+		    writer.close();
+		    
+		} catch (Exception e) {
+		  //catch any exceptions here
 		}
+	}
+	
+	public static void main (String[]args) {
+		covidSciDiscoveries test = new covidSciDiscoveries();
+		//test.readPDF();
+		test.writeHTML();
 	}
 	
 
