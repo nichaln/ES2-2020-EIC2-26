@@ -25,7 +25,7 @@ public class covidSciDiscoveries {
 		System.out.println( "Authors = " + info.getAuthor() );
 		System.out.println( "Creation Date = " + (info.getCreationDate().getTime().getYear() + 1900));
 		
-		System.out.println("--------------------------------------------------------_");
+		System.out.println("---------------------------------------------------------");
 		
 		
 		
