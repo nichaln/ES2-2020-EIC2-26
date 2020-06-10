@@ -26,7 +26,7 @@ public class covidSciDiscoveries {
 		
 		PDDocumentInformation info = document.getDocumentInformation();
 		
-		System.out.println("----------------------------"+i+"-----------------------------");
+		System.out.println("----------------------------"+i+"----------------------------");
 		
 		System.out.println( "Article Title = " + info.getTitle() );
 		System.out.println( "Creator = " + info.getCreator() );
@@ -51,7 +51,7 @@ public class covidSciDiscoveries {
 		return "  <tr>\r\n" + 
 	    		"    <td>"+ info.getTitle() +"</td>\r\n" + 
 	    		"    <td>"+ info.getCreator() +"</td>\r\n" + 
-	    		"    <td>"+ (info.getCreationDate().getTime().getYear() +1900) +"</td>\r\n" +
+	    		"    <td>"+ (info.getCreationDate().getTime().getYear() + 1900) +"</td>\r\n" +
 	    		"    <td>"+ info.getAuthor() +"</td>\r\n" +  
 	    		"  </tr>\r\n";
 	}
