@@ -12,7 +12,7 @@ import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-public class XmlProject {
+public class CovidQuery {
    public static void main(String[] args){
       try {	
          File inputFile = new File("covid19spreading.rdf");    	      	  

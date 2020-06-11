@@ -8,5 +8,7 @@ public class CovidGraphSpread {
 
 	
 	public static void main(String[] args) {
+		
+	}
 
 }

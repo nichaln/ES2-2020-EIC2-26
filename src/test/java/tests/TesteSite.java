@@ -1,11 +1,8 @@
 package tests;
 
-import static org.junit.Assert.*;
-
 import java.io.FileInputStream;
 import java.util.Properties;
 
-import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -27,12 +24,12 @@ public class TesteSite {
 	static WebDriver driver;
 	static Properties p;
 	static String email;
+	static String messageContent;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		try {
 			p = new Properties();
-//			p.load(new FileInputStream("seleniumTest.ini"));
 			p.loadFromXML(new FileInputStream("seleniumTest.xml"));
 
 		} catch (Exception e) {
@@ -40,6 +37,7 @@ public class TesteSite {
 			return;
 		}
 		email = p.getProperty("email");
+		messageContent = "";
 		System.setProperty("webdriver.chrome.driver", "C://Users//nicha//Desktop//chromedriver.exe");
 		ChromeOptions chrome = new ChromeOptions();
 //		chrome.setHeadless(true);
@@ -49,14 +47,14 @@ public class TesteSite {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-//		 driver.close(); 
+		 driver.close(); 
 //		 driver.quit();    
 	}
 
 	@Test
 	public void test() {
 		String type;
-		
+
 		int j = 1;
 		while (p.getProperty("type" + j) != null) {
 			type = p.getProperty("type" + j);
@@ -69,6 +67,7 @@ public class TesteSite {
 			}
 			j++;
 		}
+		sendEmail();
 	}
 
 	private void processLink(String type) {
@@ -78,8 +77,9 @@ public class TesteSite {
 		if (driver.getTitle().equals(pagename)) {
 			System.out.println("all good");
 		} else { // send email erro a aceder à pagina
-			String erro = "Erro ao aceder à página: \"" + url + "\"";
-			System.out.println(erro);
+			messageContent+="\n Erro ao aceder à pagina: \""+ url + "\". Nome da página esperado: "+ "\""+pagename+"\", Nome obtido: " +
+			"\""+ driver.getTitle()+"\".\n\n";
+			System.out.println(messageContent);
 		}
 	}
 
@@ -96,38 +96,46 @@ public class TesteSite {
 		}
 		elem.submit();
 		System.out.println(driver.getTitle());
-		if(driver.getTitle().equals(resultPage)) {
+		if (driver.getTitle().equals(resultPage)) {
 			System.out.println("Sucesso");
+		}else {
+			messageContent+="\n Erro ao aceder à pagina: \""+ url + "\". Nome da página esperado: "+ "\""+resultPage+"\", Nome obtido: " +
+					"\""+ driver.getTitle()+"\". Numero de inputs introduzidos: "+ inputs.length + ".";
+			System.out.println(messageContent);
 		}
 	}
-	
+
 	private static void sendEmail() {
-		String to = "nanok@iscte-iul.pt";
-		String from = "es2-2020-eic2-26@sapo.pt";
-		final String username = "es2-2020-eic2-26@sapo.pt";
-		final String password = "passwordES2";
+		if (!messageContent.equals("")) {
+			String to = email;
+			String from = "es2-2020-eic2-26@sapo.pt";
+			final String username = "es2-2020-eic2-26@sapo.pt";
+			final String password = "passwordES2020";
 
-		Properties properties = new Properties();
-		properties.put("mail.smtp.host", "smtp.sapo.pt");
-		properties.put("mail.smtp.port", "587");
-		properties.put("mail.smtp.auth", "true");
-		properties.put("mail.smtp.starttls.enable", "true");
+			Properties properties = new Properties();
+			properties.put("mail.smtp.host", "smtp.sapo.pt");
+			properties.put("mail.smtp.port", "587");
+			properties.put("mail.smtp.auth", "true");
+			properties.put("mail.smtp.starttls.enable", "true");
 
-		Session session = Session.getInstance(properties, new Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
+			Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(username, password);
+				}
+			});
+			try {
+				MimeMessage message = new MimeMessage(session);
+				message.setFrom(new InternetAddress(from));
+				message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+				message.setSubject("Erros no website");
+				message.setText(messageContent);
+				Transport.send(message);
+				System.out.println("Mensagem enviada com sucesso");
+			} catch (MessagingException mex) {
+				mex.printStackTrace();
 			}
-		});
-		try {
-			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(from));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-			message.setSubject("This is the Subject Line!");
-			message.setText("This is actual message");
-			Transport.send(message);
-			System.out.println("Sent message successfully....");
-		} catch (MessagingException mex) {
-			mex.printStackTrace();
+		}else {
+			System.out.println("Sem mensagem de erro a enviar!");
 		}
 	}
 
