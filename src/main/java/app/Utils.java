@@ -27,9 +27,9 @@ public class Utils {
 			try {
 				git = Git.cloneRepository()
 				  .setURI("https://github.com/vbasto-iscte/ESII1920.git")
-				  .setDirectory(new File("/erepo65465456456456546fff545"))
+				  .setDirectory(new File("/ESIIGrupo26"))
 				  .call();
-				//TODO isto é bola assim
+				//TODO isto é bué assim
 				repository = git.getRepository();
 			} catch (InvalidRemoteException e) {
 				System.err.println("Error - Invalid Remote " + e);
