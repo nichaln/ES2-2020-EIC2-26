@@ -26,7 +26,7 @@ import pl.edu.icm.cermine.tools.timeout.TimeoutException;
 
 public class covidSciDiscoveries {
 	
-	private InputStream[] sites;
+	private URL[] sites;
 	
 	/*public void readPDF() throws IOException {
 		
@@ -96,34 +96,40 @@ public class covidSciDiscoveries {
 	public String getLine(int i) throws IOException, TimeoutException, AnalysisException {
 		initializeSites();	
 		ContentExtractor extractor = new ContentExtractor();
-		InputStream is = sites[i];
+		URL urls = sites[i];
+		InputStream is = urls.openStream();
 		extractor.setPDF(is);
 		DocumentMetadata result = extractor.getMetadata();
 		ArrayList<String> autorLine = createAutorLine(result.getAuthors());
 		return "  <tr>\r\n" + 
-	    		"    <td>"+ result.getTitle() +"</td>\r\n" + 
+	    		   	"<td>" +
+	    		 		"<a href="+sites[i].toString()+">" + 
+	    		 			result.getTitle() +
+	    		 		"</a>" +
+	    		 	"</td>\r\n" + 
 	    		"    <td>"+ result.getJournal() +"</td>\r\n" + 
 	    		"    <td>"+ result.getDate(DateType.PUBLISHED).getYear() +"</td>\r\n" +
 	    		"    <td>"+ autorLine.toString() +"</td>\r\n" +  
 	    		"  </tr>\r\n";
 	}
 	
+	
 	//Necessário para escrever o nome de todos os autores no getLine
 	public ArrayList<String> createAutorLine(List<DocumentAuthor> autors) {
 		ArrayList<String> autorNames = new ArrayList<String>();
 		for (int i = 0; i<autors.size(); i++) {
-			autorNames.add(autors.get(i).getName() + ",");
+			autorNames.add(autors.get(i).getName());
 		}
 		return autorNames;
 	}	
 	
 	//Metodo para inicializar os documentos pdf
 	public void initializeSites() throws MalformedURLException, IOException {
-		sites = new InputStream[4];
-		sites[0] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42509?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%271-s2.0-S1755436517301135-main.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200611T120000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200611%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=4057a1332e5a205735a590e11cab988ea7d5a932d6e3cd127ba7933129f67deb").openStream();
-		sites[1] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42528?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27biology-09-00094.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200611T120000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200611%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=e8188cd2d6f6901259fc607a6bee254d0eef0c235e8301bf826800ad8e259227").openStream();
-		sites[2] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42550?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27178-1-53.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200611T120000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200611%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=e5db745a478b5dd90dbfa2e2da8c82ee270f5427700299ae1bb7beb0e3aea3bd").openStream();
-		sites[3] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42552?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27biology-09-00097.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200611T120000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200611%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=6bdfe65dbdcf4c604f6440b489e9487ff167c3eef1e22252a134a78089472c70").openStream();
+		sites = new URL[4];
+		sites[0] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42509?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%271-s2.0-S1755436517301135-main.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200611T120000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200611%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=4057a1332e5a205735a590e11cab988ea7d5a932d6e3cd127ba7933129f67deb");
+		sites[1] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42528?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27biology-09-00094.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200611T120000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200611%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=e8188cd2d6f6901259fc607a6bee254d0eef0c235e8301bf826800ad8e259227");
+		sites[2] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42550?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27178-1-53.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200611T120000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200611%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=e5db745a478b5dd90dbfa2e2da8c82ee270f5427700299ae1bb7beb0e3aea3bd");
+		sites[3] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42552?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27biology-09-00097.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200611T120000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200611%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=6bdfe65dbdcf4c604f6440b489e9487ff167c3eef1e22252a134a78089472c70");
 	}
 	
 	//Metodo que escreve o html todo para o ficheiro webTable.html
