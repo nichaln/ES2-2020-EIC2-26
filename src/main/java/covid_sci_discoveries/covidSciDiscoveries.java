@@ -41,6 +41,11 @@ public class covidSciDiscoveries {
 		
 	}*/
 	
+	public void extractWithCermine() throws MalformedURLException, IOException {
+		initializeSites();
+		//ContentExtractor extractor = new ContentExtractor();
+	}
+	
 	//Metodo para escrever uma linha na tabela html
 	public String getLine(int i) throws IOException {
 		initializeSites();	

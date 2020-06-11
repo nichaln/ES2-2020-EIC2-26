@@ -5,6 +5,12 @@
 	<groupId>ES2-2020-EIC2-26</groupId>
 	<artifactId>ES2-2020-EIC2-26</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<repositories>
+		<repository>
+			<id>icm-edu-repo</id>
+			<url>http://maven.icm.edu.pl/artifactory/repo</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -34,7 +40,12 @@
 			<artifactId>mail</artifactId>
 			<version>1.4.7</version>
 		</dependency>
-
+		<dependency>
+    		<groupId>pl.edu.icm.cermine</groupId>
+    		<artifactId>cermine-parent</artifactId>
+    		<version>1.13</version>
+    		<type>pom</type>
+		</dependency>
 	</dependencies>
 </project>
 
