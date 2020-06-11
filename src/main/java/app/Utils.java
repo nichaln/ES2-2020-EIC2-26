@@ -23,14 +23,13 @@ public class Utils {
 	 */
 
 	void accessGit() {
-		if(repository == null) {
+		if(git == null) {
 			try {
 				git = Git.cloneRepository()
 				  .setURI("https://github.com/vbasto-iscte/ESII1920.git")
-				  .setDirectory(new File("/ESIIGrupo26"))
+				  .setDirectory(new File("/ESIIGrupo26000000000000000000000000000"))
 				  .call();
 				//TODO isto é bué assim
-				repository = git.getRepository();
 			} catch (InvalidRemoteException e) {
 				System.err.println("Error - Invalid Remote " + e);
 				e.printStackTrace();
@@ -45,6 +44,7 @@ public class Utils {
 		else {
 			//TODO fazer pull, also meter isto inteligente :)
 		}
+		repository = git.getRepository();
 	}
 
 	void readFile() {
@@ -74,7 +74,8 @@ public class Utils {
 				ObjectLoader loader = repository.open(objectId);
 
 				// and then one can the loader to read the file
-				loader.copyTo(System.out);
+				//loader.copyTo(System.out);
+				System.out.println(loader.toString());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
