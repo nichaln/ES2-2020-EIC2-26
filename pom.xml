@@ -5,12 +5,7 @@
 	<groupId>ES2-2020-EIC2-26</groupId>
 	<artifactId>ES2-2020-EIC2-26</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<repositories>
-		<repository>
-			<id>icm-edu-repo</id>
-			<url>http://maven.icm.edu.pl/artifactory/repo</url>
-		</repository>
-	</repositories>
+	
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -29,6 +24,18 @@
 			<groupId>org.apache.pdfbox</groupId>
 			<artifactId>pdfbox</artifactId>
 			<version>2.0.20</version>
+		</dependency>
+		<!-- necessário para alguma coisa do XML-->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.8</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit -->
+		<dependency>
+		    <groupId>org.eclipse.jgit</groupId>
+		    <artifactId>org.eclipse.jgit</artifactId>
+		    <version>5.7.0.202003110725-r</version>
 		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
@@ -54,6 +61,16 @@
 			<version>5.7.0.202003110725-r</version>
 		</dependency>
 
+
 	</dependencies>
+	
+	<repositories>
+		<repository>
+			<id>icm-edu-repo</id>
+			<url>http://maven.icm.edu.pl/artifactory/repo</url>
+		</repository>
+	</repositories>
+	
+	
 </project>
 
