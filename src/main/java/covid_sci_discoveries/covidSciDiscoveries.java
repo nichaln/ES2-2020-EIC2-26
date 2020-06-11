@@ -7,10 +7,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.text.PDFTextStripper;
+
+import com.itextpdf.text.Element;
+
+import pl.edu.icm.cermine.ContentExtractor;
+import pl.edu.icm.cermine.exception.AnalysisException;
+import pl.edu.icm.cermine.metadata.model.DateType;
+import pl.edu.icm.cermine.metadata.model.DocumentAuthor;
+import pl.edu.icm.cermine.metadata.model.DocumentMetadata;
+import pl.edu.icm.cermine.tools.timeout.TimeoutException;
 
 public class covidSciDiscoveries {
 	
@@ -41,28 +53,77 @@ public class covidSciDiscoveries {
 		
 	}*/
 	
-	//Metodo para escrever uma linha na tabela html
-	public String getLine(int i) throws IOException {
+	/*Metodo para escrever uma linha na tabela html da maneira antiga
+		public String getLine(int i) throws IOException {
+			initializeSites();	
+			InputStream is = sites[i];
+			PDDocument document = PDDocument.load(is);
+			PDDocumentInformation info = document.getDocumentInformation();
+			document.close();
+			return "  <tr>\r\n" + 
+		    		"    <td>"+ info.getTitle() +"</td>\r\n" + 
+		    		"    <td>"+ info.getCreator() +"</td>\r\n" + 
+		    		"    <td>"+ (info.getCreationDate().getTime().getYear() +1900) +"</td>\r\n" +
+		    		"    <td>"+ info.getAuthor() +"</td>\r\n" +  
+		    		"  </tr>\r\n";
+		}*/
+	
+	/*FUNCIONA!
+	public void extractWithCermine() throws MalformedURLException, IOException, AnalysisException {
+		initializeSites();
+		for (int i = 0; i<sites.length; i++) {
+			ContentExtractor extractor = new ContentExtractor();
+			InputStream is = sites[i];	
+			extractor.setPDF(is);
+			DocumentMetadata result = extractor.getMetadata();
+			System.out.println("Article Tile: " + result.getTitle());
+			System.out.println( "Journal Name: " + result.getJournal());
+			System.out.print( "Authors: ");
+			List<DocumentAuthor> autors = result.getAuthors();
+			for (int j = 0; j<autors.size(); j++) {
+				if (j<autors.size()-1)
+					System.out.print(autors.get(j).getName() + " , ");
+				else {
+					System.out.print(autors.get(j).getName() + ".");
+					System.out.println();}
+			}
+			System.out.println( "Publication Year: " + (result.getDate(DateType.PUBLISHED).getYear()));
+			System.out.println("_______________________________________________________");
+		}
+	}*/
+	
+	//Metodo para escrever linhas no html usando o CERMINE
+	public String getLine(int i) throws IOException, TimeoutException, AnalysisException {
 		initializeSites();	
+		ContentExtractor extractor = new ContentExtractor();
 		InputStream is = sites[i];
-		PDDocument document = PDDocument.load(is);
-		PDDocumentInformation info = document.getDocumentInformation();
-		document.close();
+		extractor.setPDF(is);
+		DocumentMetadata result = extractor.getMetadata();
+		ArrayList<String> autorLine = createAutorLine(result.getAuthors());
 		return "  <tr>\r\n" + 
-	    		"    <td>"+ info.getTitle() +"</td>\r\n" + 
-	    		"    <td>"+ info.getCreator() +"</td>\r\n" + 
-	    		"    <td>"+ (info.getCreationDate().getTime().getYear() +1900) +"</td>\r\n" +
-	    		"    <td>"+ info.getAuthor() +"</td>\r\n" +  
+	    		"    <td>"+ result.getTitle() +"</td>\r\n" + 
+	    		"    <td>"+ result.getJournal() +"</td>\r\n" + 
+	    		"    <td>"+ result.getDate(DateType.PUBLISHED).getYear() +"</td>\r\n" +
+	    		"    <td>"+ autorLine.toString() +"</td>\r\n" +  
 	    		"  </tr>\r\n";
 	}
+	
+	//Necessário para escrever o nome de todos os autores no getLine
+	public ArrayList<String> createAutorLine(List<DocumentAuthor> autors) {
+		ArrayList<String> autorNames = new ArrayList<String>();
+		for (int i = 0; i<autors.size(); i++) {
+			autorNames.add(autors.get(i).getName() + ",");
+		}
+		return autorNames;
+	}	
 	
 	//Metodo para inicializar os documentos pdf
 	public void initializeSites() throws MalformedURLException, IOException {
 		sites = new InputStream[4];
-		sites[0] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42509?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%271-s2.0-S1755436517301135-main.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200610T150000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200610%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=8fb59a8ed8f9fb25f041cccca802022c396d5a792fa8b78523d6b683ac2219a4").openStream();
-		sites[1] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42550?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27178-1-53.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200610T150000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200610%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=3d56953441b99dbf52a0530f7f8bfa5eb4dca70037c783bbced67532748fb84a").openStream();
-		sites[2] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42552?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27biology-09-00097.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200610T150000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200610%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=90ab74e89769475b58bc7f3231a707a85b261ecef02d0110e7f8ebf8ceb4e1b1").openStream();
-		sites[3] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42528?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27biology-09-00094.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200610T150000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200610%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=66c5738b1d1b31f4c0b64cc1617bdaa59210727be18c31132f46d21f9583ed1d").openStream();
+		sites[0] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42509?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%271-s2.0-S1755436517301135-main.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200611T120000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200611%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=4057a1332e5a205735a590e11cab988ea7d5a932d6e3cd127ba7933129f67deb").openStream();
+		sites[1] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42528?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27biology-09-00094.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200611T120000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200611%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=e8188cd2d6f6901259fc607a6bee254d0eef0c235e8301bf826800ad8e259227").openStream();
+		sites[2] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42550?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27178-1-53.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200611T120000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200611%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=e5db745a478b5dd90dbfa2e2da8c82ee270f5427700299ae1bb7beb0e3aea3bd").openStream();
+		sites[3] = new URL("https://learn-eu-central-1-prod-fleet01-xythos.s3.eu-central-1.amazonaws.com/5eb046c2a3d01/42552?response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27biology-09-00097.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200611T120000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PLYI3L4QWN%2F20200611%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=6bdfe65dbdcf4c604f6440b489e9487ff167c3eef1e22252a134a78089472c70").openStream();
 	}
 	
 	//Metodo que escreve o html todo para o ficheiro webTable.html
@@ -108,7 +169,7 @@ public class covidSciDiscoveries {
 	
 	public static void main (String[]args) {
 		covidSciDiscoveries test = new covidSciDiscoveries();
-		//test.readPDF();
+		//test.extractWithCermine();
 		test.writeHTML();
 	}
 	
