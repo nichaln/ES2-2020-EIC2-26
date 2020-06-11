@@ -33,7 +33,7 @@ public class TesteSite {
 			p.loadFromXML(new FileInputStream("seleniumTest.xml"));
 
 		} catch (Exception e) {
-			System.out.println("Error reading seleniumTest.ini file " + e);
+			System.out.println("Error reading seleniumTest.xml file " + e);
 			return;
 		}
 		email = p.getProperty("email");
@@ -78,7 +78,7 @@ public class TesteSite {
 			System.out.println("all good");
 		} else { // send email erro a aceder à pagina
 			messageContent+="\n Erro ao aceder à pagina: \""+ url + "\". Nome da página esperado: "+ "\""+pagename+"\", Nome obtido: " +
-			"\""+ driver.getTitle()+"\".\n\n";
+			"\""+ driver.getTitle()+"\".\n";
 			System.out.println(messageContent);
 		}
 	}
@@ -100,7 +100,7 @@ public class TesteSite {
 			System.out.println("Sucesso");
 		}else {
 			messageContent+="\n Erro ao aceder à pagina: \""+ url + "\". Nome da página esperado: "+ "\""+resultPage+"\", Nome obtido: " +
-					"\""+ driver.getTitle()+"\". Numero de inputs introduzidos: "+ inputs.length + ".";
+					"\""+ driver.getTitle()+"\". Numero de inputs introduzidos: "+ inputs.length + ".\n";
 			System.out.println(messageContent);
 		}
 	}
