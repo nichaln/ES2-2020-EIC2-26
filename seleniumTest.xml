@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<!-- 
+	type: link
+	[fields]
+		url: Url a testar
+		pagename: Resultado esperado do nome da página
+	
+	type: form
+	[fields]
+		url: Url contendo o form
+		pagename: nome da pagina depois de ter feito o submit do form
+		inputs: nomes dos campos de input separados por virgula
+		<input_name>: valor do campo input (para cada input dado nos inputs)
+
+-->
+<properties>
+	<entry key="email">nanok@iscte-iul.pt</entry>
+
+	<!-- Link1 -->
+	<entry key="type1">link</entry>
+	<entry key="type1_url">https://e-learning.iscte-iul.pt/</entry>
+	<entry key="type1_pagename">Blackboard Learn</entry>
+	
+	<!-- Link2 -->
+	<entry key="type2">form</entry>
+	<entry key="type2_url">https://fenix.iscte-iul.pt/loginPage.jsp</entry>
+	<entry key="type2_pagename">Comunicação - ISCTE-IUL - ISCTE - Instituto Universitário de Lisboa</entry>
+	<entry key="type2_inputs">username,password</entry>
+	<entry key="type2_username">nanok@iscte-iul.pt</entry>
+	<entry key="type2_password"></entry>
+	
+	<!-- Link3 -->
+	
+</properties>
