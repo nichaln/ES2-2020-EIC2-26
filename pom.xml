@@ -48,18 +48,20 @@
 			<version>1.4.7</version>
 		</dependency>
 		<dependency>
-    		<groupId>pl.edu.icm.cermine</groupId>
-    		<artifactId>cermine-parent</artifactId>
-    		<version>1.13</version>
-    		<type>pom</type>
+			<groupId>pl.edu.icm.cermine</groupId>
+			<artifactId>cermine-parent</artifactId>
+			<version>1.13</version>
+			<type>pom</type>
 		</dependency>
-		
+		<!-- parte 4 -->
+		<!-- https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit -->
 		<dependency>
-    		<groupId>pl.edu.icm.cermine</groupId>
-    		<artifactId>cermine-impl</artifactId>
-   			<version>1.13</version>
+			<groupId>org.eclipse.jgit</groupId>
+			<artifactId>org.eclipse.jgit</artifactId>
+			<version>5.7.0.202003110725-r</version>
 		</dependency>
-		
+
+
 	</dependencies>
 	
 	<repositories>
