@@ -12,6 +12,7 @@
 		pagename: nome da pagina depois de ter feito o submit do form
 		inputs: nomes dos campos de input separados por virgula
 		<input_name>: valor do campo input (para cada input dado nos inputs)
+		<opcional>check_Email : email para verificacao de rececao de email, caso o form envie email apos ser submetido
 
 -->
 <properties>
@@ -85,6 +86,7 @@
 	<entry key="type11_country">TestCountry</entry>
 	<entry key="type11_email_address">es2-2020-eic2-26@sapo.pt</entry>
 	<entry key="type11_keyword_of_interest">TestKeyword</entry>
+	<entry key="type10_check_email">es2-2020-eic2-26@sapo.pt</entry>
 	
 	<!--  Link12 -->
 	<entry key="type12">link</entry>
