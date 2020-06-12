@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -18,8 +17,6 @@ import org.eclipse.jgit.treewalk.*;
 import org.eclipse.jgit.treewalk.filter.*;
 
 public class Utils {
-	Git git;
-	Repository repository;
 	List<ObjectId> ids = new LinkedList<ObjectId>();
 	List<Ref> call;
 	List<fileInformation> informations = new LinkedList<fileInformation>();
@@ -53,8 +50,9 @@ public class Utils {
 		}
 	}
 
-	void accessGit() {
+	private static Git getGit() {
 		File rep = new File("/Repositorio");
+		Git git = null;
 		if (rep.exists()) { // Repository exists, opening, and 
 			try {
 				git = Git.open(new File("/Repositorio/.git"));
@@ -79,15 +77,20 @@ public class Utils {
 			}
 		
 		}
-		repository = git.getRepository();
+		return git;
+	}
+	
+	public static Repository getGitRepository() {
+		Git git = getGit();
+		return git.getRepository();
 	}
 
 	void readFile() throws RevisionSyntaxException, NoHeadException, GitAPIException {
-		accessGit();
+		Repository repository = getGitRepository();
 	
 		
 		//Buscar referencias para commits com tags e criar uma lista com todas as tags
-		call = git.tagList().call();
+		call = getGit().tagList().call();
 		for (Ref ref : call) {
 		    System.out.println("Tag: " + ref + " " + ref.getName() + " " + ref.getObjectId().getName());
 		    ids.add(ref.getObjectId());
@@ -96,8 +99,6 @@ public class Utils {
 		//System.out.println(tags.toString());
 		// a RevWalk allows to walk over commits based on some filtering that is defined
 		try {
-			//System.out.println(repository.getBranch());
-			
 			//Usar este ID para obter o ficheiro master mas não é preciso
 			ObjectId lastCommitId = repository.resolve(Constants.HEAD);
 			RevWalk revWalk = new RevWalk(repository);
