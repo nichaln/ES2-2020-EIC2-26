@@ -93,9 +93,9 @@
 
     <owl:NamedIndividual rdf:about="&untitled-ontology-3;Algarve">
         <rdf:type rdf:resource="&untitled-ontology-3;Regiao"/>
-        <Infecoes rdf:datatype="&xsd;integer">57</Infecoes>
-        <Internamentos rdf:datatype="&xsd;integer">57</Internamentos>
-        <Testes rdf:datatype="&xsd;integer">57</Testes>
+        <Infecoes rdf:datatype="&xsd;integer">50</Infecoes>
+        <Internamentos rdf:datatype="&xsd;integer">50</Internamentos>
+        <Testes rdf:datatype="&xsd;integer">50</Testes>
     </owl:NamedIndividual>
     
 
