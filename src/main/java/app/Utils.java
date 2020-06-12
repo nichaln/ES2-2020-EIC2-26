@@ -74,7 +74,7 @@ public class Utils {
 				System.err.println("Error - Transport " + e);
 				e.printStackTrace();
 			} catch (GitAPIException e) {
-				System.err.println("Error - GitAPI " + e);
+				System.err.println("Error  - GitAPI " + e);
 				e.printStackTrace();
 			}
 		
