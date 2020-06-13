@@ -18,9 +18,7 @@ import pl.edu.icm.cermine.tools.timeout.TimeoutException;
 
 public class CovidGraphSpread {
 	
-	Utils informations;
-	
-	ArrayList<String> lines = new ArrayList<String>();
+	Utils fileInformations;
 	
 	public void writeHTML() {
 		FileWriter fWriter = null;
@@ -64,22 +62,22 @@ public class CovidGraphSpread {
 	}
 	
 	public String getLines() {
-		informations = new Utils();
-		List<fileInformation> files = informations.getInformations();
+		fileInformations = new Utils();
+		List<fileInformation> files = fileInformations.getInformations();
 		String codigoHtml = "";
 		for (int i = 0; i<files.size(); i++) {
 			String[] tagNameParse = files.get(i).getTagName().split("/");
-			String linha = "  <tr>\r\n" + 
+			String linhaDaTabela = "  <tr>\r\n" + 
 	    		   	"<td>" + files.get(i).getTimestamp() +"</td>\r\n" + 
 	    		"    <td>"+ files.get(i).getFileName() +"</td>\r\n" + 
-	    		"    <td>"+ tagNameParse[2] +"</td>\r\n" +
+	    		"    <td>"+ tagNameParse[tagNameParse.length - 1] +"</td>\r\n" +
 	    		"    <td>"+ files.get(i).getTagDescription() +"</td>\r\n" +  
 	    		"    <td>"+
-	    				"<a href=http://visualdataweb.de/webvowl/#iri=https://github.com/vbasto-iscte/ESII1920/raw/"+tagNameParse[2]+"/covid19spreading.rdf>" + 
+	    				"<a href=http://visualdataweb.de/webvowl/#iri=https://github.com/vbasto-iscte/ESII1920/raw/"+tagNameParse[tagNameParse.length - 1]+"/covid19spreading.rdf>" + 
 	    					"Vizualize data"+
 	    				"</a>" +
 	    			"</tr>\r\n";
-			codigoHtml += " " + linha;
+			codigoHtml += " " + linhaDaTabela;
 		}
 		return codigoHtml;
 	}

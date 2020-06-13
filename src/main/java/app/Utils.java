@@ -17,7 +17,7 @@ import org.eclipse.jgit.treewalk.*;
 import org.eclipse.jgit.treewalk.filter.*;
 
 public class Utils {
-	List<ObjectId> ids = new LinkedList<ObjectId>();
+	List<ObjectId> idsDasTags = new LinkedList<ObjectId>();
 	List<Ref> call;
 	List<fileInformation> informations = new LinkedList<fileInformation>();
 	
@@ -92,7 +92,7 @@ public class Utils {
 		//Buscar referencias para commits com tags e criar uma lista com todas as tags
 		call = getGit().tagList().call();
 		for (Ref ref : call) {
-		    ids.add(ref.getObjectId());
+		    idsDasTags.add(ref.getObjectId());
 		}
 		// a RevWalk allows to walk over commits based on some filtering that is defined
 		try {
@@ -100,11 +100,11 @@ public class Utils {
 			ObjectId lastCommitId = repository.resolve(Constants.HEAD);
 			RevWalk revWalk = new RevWalk(repository);
 			//Percorrer a lista criada de tags, e procurar commits com o ID das tags
-			for(int i = 0; i<ids.size(); i++) {
+			for(int i = 0; i<idsDasTags.size(); i++) {
 				//Encontrar o commit com id da tag i
-				RevCommit commit = revWalk.parseCommit(ids.get(i));
+				RevCommit commit = revWalk.parseCommit(idsDasTags.get(i));
 				
-				//Receber informação da parte 4
+				//Receber informação do commit
 				PersonIdent author = commit.getAuthorIdent();
 				Date timestamp = author.getWhen();
 				String fileTag = call.get(i).getName();
@@ -130,7 +130,7 @@ public class Utils {
 				byte[] bytes = loader.getBytes();
 				FileOutputStream fos = new FileOutputStream("covid19spreading"+i+".rdf");
 				
-				//continuação de recolha de informação parte 4
+				//continuação de recolha de informação do commit
 				String fileName = "covid19spreading"+i+".rdf";
 				informations.add(new fileInformation(timestamp, fileName, fileTag, tagDescription ));
 				//Fim de recolha de informação
