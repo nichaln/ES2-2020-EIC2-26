@@ -1,11 +1,11 @@
-# ES2-2020-EIC2-26
-André Barão 78352
-Henrique Gaspar 82304
-João Faria 78980
-Nichal Narotamo 82247
-Pedro Fonseca 82131
-Stefan Tataru 78965
+# ES2-2020-EIC2-26 \n
+André Barão 78352 \n
+Henrique Gaspar 82304 \n
+João Faria 78980 \n
+Nichal Narotamo 82247 \n
+Pedro Fonseca 82131 \n
+Stefan Tataru 78965 \n
 
-Funcionalidades não implementadas:
+Funcionalidades não implementadas:\n
 
-Funcionalidades com erros/parcialmente implementadas:
+Funcionalidades com erros/parcialmente implementadas:\n
