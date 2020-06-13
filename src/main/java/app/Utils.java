@@ -92,11 +92,8 @@ public class Utils {
 		//Buscar referencias para commits com tags e criar uma lista com todas as tags
 		call = getGit().tagList().call();
 		for (Ref ref : call) {
-		    System.out.println("Tag: " + ref + " " + ref.getName() + " " + ref.getObjectId().getName());
 		    ids.add(ref.getObjectId());
 		}
-		
-		//System.out.println(tags.toString());
 		// a RevWalk allows to walk over commits based on some filtering that is defined
 		try {
 			//Usar este ID para obter o ficheiro master mas não é preciso
@@ -107,16 +104,12 @@ public class Utils {
 				//Encontrar o commit com id da tag i
 				RevCommit commit = revWalk.parseCommit(ids.get(i));
 				
-				//Testes para parte 4
-				System.out.println("-----------------------------------------------");
+				//Receber informação da parte 4
 				PersonIdent author = commit.getAuthorIdent();
-				System.out.println("Data commit -> " + author.getWhen()); //Usar isto para campo File Timestamp
-				System.out.println("File Tag -> " + call.get(i).getName());
-				System.out.println("Tag Description -> " + commit.getShortMessage()); //Usar isto na tag description?
 				Date timestamp = author.getWhen();
 				String fileTag = call.get(i).getName();
 				String tagDescription = commit.getShortMessage();
-				//Fim de testes
+				//Fim da primeira parte
 				
 				RevTree tree = commit.getTree();
 				// e depois faz o download do covid19spreading.rdf
@@ -137,12 +130,10 @@ public class Utils {
 				byte[] bytes = loader.getBytes();
 				FileOutputStream fos = new FileOutputStream("covid19spreading"+i+".rdf");
 				
-				//Testes para parte 4
-				System.out.println("File Name -> covid19spreading"+i+".rdf" );
-				System.out.println("Spread visualizer -> NAO HA CRL");
+				//continuação de recolha de informação parte 4
 				String fileName = "covid19spreading"+i+".rdf";
 				informations.add(new fileInformation(timestamp, fileName, fileTag, tagDescription ));
-				//Fim de testes
+				//Fim de recolha de informação
 				
 				//System.out.println("Vou escrever o " + fos.toString());
 				fos.write(bytes);
