@@ -13,6 +13,7 @@
 		inputs: nomes dos campos de input separados por virgula
 		<input_name>: valor do campo input (para cada input dado nos inputs)
 		<opcional>check_Email : email para verificacao de rececao de email, caso o form envie email apos ser submetido
+		<se usar o check_email> check_subject : para verificar se o email recebido é igual ao que deve receber apos a submissao do form
 
 -->
 <properties>
@@ -33,42 +34,42 @@
 	
 	<!-- Link3 -->
 	<entry key="type3">link</entry>
-	<entry key="type3_url">http://192.168.99.100:8000/home</entry>
+	<entry key="type3_url">http://192.168.99.100:80/home</entry>
 	<entry key="type3_pagename">HOME</entry>
 	
 	<!--  Link4 -->
 	<entry key="type4">link</entry>
-	<entry key="type4_url">http://192.168.99.100:8000/CovidScientificDiscoveries</entry>
+	<entry key="type4_url">http://192.168.99.100:80/CovidScientificDiscoveries</entry>
 	<entry key="type4_pagename">Covid Scientific Discoveries</entry>
 	
 	<!--  Link5 -->
 	<entry key="type5">link</entry>
-	<entry key="type5_url">http://192.168.99.100:8000/CovidSpread</entry>
+	<entry key="type5_url">http://192.168.99.100:80/CovidSpread</entry>
 	<entry key="type5_pagename">Covid Spread</entry>
 	
 	<!--  Link6 TEM DE SER ALTERADO PARA FORM-->
 	<entry key="type6">link</entry>
-	<entry key="type6_url">http://192.168.99.100:8000/CovidQueries</entry>
+	<entry key="type6_url">http://192.168.99.100:80/CovidQueries</entry>
 	<entry key="type6_pagename">Covid Queries</entry>
 	
 	<!--  Link7 -->
 	<entry key="type7">link</entry>
-	<entry key="type7_url">http://192.168.99.100:8000/CovidEvolution</entry>
+	<entry key="type7_url">http://192.168.99.100:80/CovidEvolution</entry>
 	<entry key="type7_pagename">Covid Evolution</entry>
 	
 	<!--  Link8 -->
 	<entry key="type8">link</entry>
-	<entry key="type8_url">http://192.168.99.100:8000/CovidWiki</entry>
+	<entry key="type8_url">http://192.168.99.100:80/CovidWiki</entry>
 	<entry key="type8_pagename">Covid Wiki</entry>
 	
 	<!--  Link9 -->
 	<entry key="type9">link</entry>
-	<entry key="type9_url">http://192.168.99.100:8000/FAQ</entry>
+	<entry key="type9_url">http://192.168.99.100:80/FAQ</entry>
 	<entry key="type9_pagename">FAQ</entry>
 	
 	<!--  Link10 -->
 	<entry key="type10">form</entry>
-	<entry key="type10_url">http://192.168.99.100:8000/ContactUs</entry>
+	<entry key="type10_url">http://192.168.99.100:80/ContactUs</entry>
 	<entry key="type10_pagename">Home</entry>
 	<entry key="type10_inputs">subject,message,visitor_email</entry>
 	<entry key="type10_subject">TestSubject</entry>
@@ -77,7 +78,7 @@
 	
 	<!--  Link11 -->
 	<entry key="type11">form</entry>
-	<entry key="type11_url">http://192.168.99.100:8000/JoinUs</entry>
+	<entry key="type11_url">http://192.168.99.100:80/JoinUs</entry>
 	<entry key="type11_pagename">Home</entry>
 	<entry key="type11_inputs">name,surname,affiliation,country,email_address,keywords_of_interest</entry>
 	<entry key="type11_name">TestName</entry>
@@ -87,20 +88,22 @@
 	<entry key="type11_email_address">es2-2020-eic2-26@sapo.pt</entry>
 	<entry key="type11_keyword_of_interest">TestKeyword</entry>
 	<entry key="type10_check_email">es2-2020-eic2-26@sapo.pt</entry>
+	<entry key="type10_check_subject">TestEmailSubject</entry>
 	
 	<!--  Link12 -->
 	<entry key="type12">link</entry>
-	<entry key="type12_url">http://192.168.99.100:8000/AboutUs</entry>
+	<entry key="type12_url">http://192.168.99.100:80/AboutUs</entry>
 	<entry key="type12_pagename">About Us</entry>
 	
 	<!--  Link13 -->
 	<entry key="type13">link</entry>
-	<entry key="type13_url">http://192.168.99.100:8000/CovidScientificDiscoveriesRepository</entry>
+	<entry key="type13_url">http://192.168.99.100:80/CovidScientificDiscoveriesRepository</entry>
 	<entry key="type13_pagename">FAQ</entry>
 	
 	<!--  Link14 -->
 	<entry key="type14">link</entry>
-	<entry key="type14_url">http://192.168.99.100:8000/WebSiteAnalytics</entry>
-	<entry key="type14_pagename">Web Site Analytics</entry>
+	<entry key="type14_url">http://192.168.99.100/web-site-analytics/</entry>
+	<entry key="type14_pagename">Web site analytics – ES2-2020-EIC2-26</entry>
+
 	
 </properties>
