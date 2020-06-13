@@ -1,7 +1,9 @@
 package covid_query;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import org.eclipse.jgit.lib.*;
@@ -96,11 +98,49 @@ public class CovidQuery {
 			e.printStackTrace();
 		}
 	}
+	
+	public void createHTMLForm() {
+		FileWriter fWriter = null;
+		BufferedWriter writer = null;
+		try {
+			fWriter = new FileWriter("C:\\Users\\jmjmf\\git\\ES2-2020-EIC2-26\\src\\main\\java\\covid_query\\formulario.html");
+			writer = new BufferedWriter(fWriter);
+			writer.write("<!DOCTYPE html>\r\n" + 
+			    		"<html>\r\n" + 
+			    		"<head>\r\n" + 
+			    		"<meta charset=\"ISO-8859-1\">\r\n" + 
+			    		"<title>Covid Query</title>\r\n" +
+			    		"<h1>Welcome to Covid Query</h1>\r\n" +
+			    		"</head>\r\n" + 
+			    		"\r\n" +
+			    		"<style>\r\n" +
+			    		//Definir estilo (?)
+			    		"</style>\r\n" +
+			    		"<body>\r\n" + 
+			    		/*
+			    		 * Corpo !
+			    		 */
+			    		"	<form action=\"CENINHA DO CGI AHHHHHHHHH\" method=\"get\">\r\n" +
+			    		"		<select id=\"Regiao\" name=\"Regiao\">\r\n" +
+			    		"			<option value=\"1\">1</option>\r\n" +
+			    		"			<option value=\"2\">2</option>\r\n" +
+			    		"			<option value=\"3\">3</option>\r\n" +
+			    		"			<option value=\"4\">4</option>\r\n" +
+			    		"		</select>\r\n" +
+			    		"	</form>\r\n" + 
+			    		"</body>\r\n" + 
+			    		"</html>");
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		    
+	}
 
 	public static void main(String[] args) {
 		
 		CovidQuery test = new CovidQuery();
 		test.performQuery("//*[contains(@about,'Algarve')]/Internamentos/text()");
+		test.createHTMLForm();
 
 		/*try {
 			String query = "/RDF/NamedIndividual/@*";
