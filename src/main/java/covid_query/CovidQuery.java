@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.shared.io.download.DownloadFailedException;
 import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -14,13 +12,15 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class CovidQuery {
 
@@ -28,7 +28,7 @@ public class CovidQuery {
 
 	}
 
-	static void downloadFile() {
+	void downloadFile() {
 		Repository repository = app.Utils.getGitRepository();
 		try {
 			ObjectId lastCommitId = repository.resolve(Constants.HEAD);
@@ -47,9 +47,12 @@ public class CovidQuery {
 
 				ObjectId objectId = treeWalk.getObjectId(0);
 				ObjectLoader loader = repository.open(objectId);
-				// loader.copyTo(System.out);
+//				loader.copyTo(System.out);
 				byte[] bytes = loader.getBytes();
 				FileOutputStream fos = new FileOutputStream("covid19spreading.rdf");
+				fos.write(bytes);
+				fos.close();
+				treeWalk.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -59,16 +62,47 @@ public class CovidQuery {
 			e.printStackTrace();
 		}
 	}
+	
+	private Document openDocument() {
+		File inputFile = new File("covid19spreading.rdf");
+		if(!inputFile.isFile()) {
+			downloadFile();
+			inputFile = new File("covid19spreading.rdf");
+		}
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = null;
+		Document doc = null;
+		try {
+			dBuilder = dbFactory.newDocumentBuilder();
+			doc = dBuilder.parse(inputFile);
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+		return doc;
+	}
+	
+	public void performQuery(String query) {
+		Document doc = openDocument();
+		XPathFactory xpathFactory = XPathFactory.newInstance();
+		XPath xpath = xpathFactory.newXPath();
+		try {
+			XPathExpression expr = xpath.compile(query);
+			System.out.println(expr.evaluate(doc, XPathConstants.STRING));
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void main(String[] args) {
-		try {
-				
-			File inputFile = new File("covid19spreading.rdf");
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(inputFile);
-			doc.getDocumentElement().normalize();
+		
+		CovidQuery test = new CovidQuery();
+		test.performQuery("//*[contains(@about,'Algarve')]/Internamentos/text()");
 
+		/*try {
 			String query = "/RDF/NamedIndividual/@*";
 			System.out.println("Query para obter a lista das regiões: " + query);
 			XPathFactory xpathFactory = XPathFactory.newInstance();
@@ -97,6 +131,6 @@ public class CovidQuery {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 }
