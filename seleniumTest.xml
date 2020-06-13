@@ -69,8 +69,8 @@
 	
 	<!--  Link10 -->
 	<entry key="type10">form</entry>
-	<entry key="type10_url">http://192.168.99.100:80/ContactUs</entry>
-	<entry key="type10_pagename">Home</entry>
+	<entry key="type10_url">http://192.168.99.100/contact-us/</entry>
+	<entry key="type10_pagename">Página não encontrada – ES2-2020-EIC2-26</entry>
 	<entry key="type10_inputs">subject,message,visitor_email</entry>
 	<entry key="type10_subject">TestSubject</entry>
 	<entry key="type10_message">TestMessage</entry>
@@ -87,8 +87,8 @@
 	<entry key="type11_country">TestCountry</entry>
 	<entry key="type11_email_address">es2-2020-eic2-26@sapo.pt</entry>
 	<entry key="type11_keyword_of_interest">TestKeyword</entry>
-	<entry key="type10_check_email">es2-2020-eic2-26@sapo.pt</entry>
-	<entry key="type10_check_subject">TestEmailSubject</entry>
+	<entry key="type11_check_email">es2-2020-eic2-26@sapo.pt</entry>
+	<entry key="type11_check_subject">TestEmailSubject</entry>
 	
 	<!--  Link12 -->
 	<entry key="type12">link</entry>
@@ -104,6 +104,11 @@
 	<entry key="type14">link</entry>
 	<entry key="type14_url">http://192.168.99.100/web-site-analytics/</entry>
 	<entry key="type14_pagename">Web site analytics – ES2-2020-EIC2-26</entry>
+	
+	<!--  Link15 -->
+	<entry key="type15">link</entry>
+	<entry key="type15_url">http://www.google.pt/</entry>
+	<entry key="type15_pagename">Google</entry>
 
 	
 </properties>
