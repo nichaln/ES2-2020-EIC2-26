@@ -38,7 +38,7 @@ Fazer o unzip da pasta mysql, e copiar o conteúdo que está dentro dessa pasta 
 
 Fazer o unzip da pasta html, e copiar o conteúdo que está dentro dessa pasta para C:/Users/Wordpress/html
 
-Copiar o ficheiro docker-compose-yml para dentro da pasta C:/Users/Wordpress
+Copiar o ficheiro docker-compose-yml para dentro da pasta C:/Users/Wordpress (as imagens são descarregadas do dockerHub)
 
 Abrir o docker e depois de posicionar-se na diretoria C:/Users/Wordpress, correr o comando docker-compose up -d
 
