@@ -22,11 +22,20 @@ import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * Classe responsável por gerar o Formulário
+ * 
+ * @author jmjmf-iscteiul
+ *
+ */
 public class CovidFormCreator {
-	
+
 	private static String[] operators = { "=", "!", "!=", "<", ">", "<=", ">=" };
-	
-	private static void downloadFile() {
+
+	/**
+	 * Faz download do ficheiro "covidspreading.rdf" do repositório
+	 */
+	static void downloadFile() {
 		Repository repository = app.Utils.getGitRepository();
 		try {
 			ObjectId lastCommitId = repository.resolve(Constants.HEAD);
@@ -59,10 +68,15 @@ public class CovidFormCreator {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Devolve o documento rdf para fazer ir buscar as propriedades e regioes
+	 * 
+	 * @return documento
+	 */
 	static Document openDocument() {
 		File inputFile = new File("covid19spreading.rdf");
-		if(!inputFile.isFile()) {
+		if (!inputFile.isFile()) {
 			downloadFile();
 			inputFile = new File("covid19spreading.rdf");
 		}
@@ -81,7 +95,12 @@ public class CovidFormCreator {
 		}
 		return doc;
 	}
-	
+
+	/**
+	 * Devolve todas as regioes presentes no ficheiro "covidspreading.rdf"
+	 * 
+	 * @return as regioes
+	 */
 	private static ArrayList<String> getRegions() {
 		ArrayList<String> arrayList = new ArrayList<String>();
 		String query = "/RDF/NamedIndividual/@*";
@@ -99,7 +118,12 @@ public class CovidFormCreator {
 		}
 		return arrayList;
 	}
-	
+
+	/**
+	 * Devolve todas as propriedades presentes no ficheiro "covidspreading.rdf"
+	 * 
+	 * @return as propriedades
+	 */
 	private static ArrayList<String> getDatatypeProperty() {
 		ArrayList<String> arrayList = new ArrayList<String>();
 		String query = "/RDF/DatatypeProperty/@*";
@@ -117,101 +141,56 @@ public class CovidFormCreator {
 		}
 		return arrayList;
 	}
-	
+
+	/**
+	 * Cria o código HTML do formulário
+	 * 
+	 */
 	public static void createHTMLForm() {
 		FileWriter fWriter = null;
 		BufferedWriter writer = null;
 		try {
-			String path = "C:\\Users\\jmjmf\\git\\ES2-2020-EIC2-26\\src\\main\\java\\covid_query\\formulario.html";
-//			path = "cena do wordpress"; 
+			String path = System.getProperty("user.home") + "\\wordpress\\html\\wp-admin\\formulario.html";
 			fWriter = new FileWriter(path);
 			writer = new BufferedWriter(fWriter);
-			String codigohtml =
-				"<!DOCTYPE html>\r\n" + 
-	    		"<html>\r\n" + 
-	    		"<head>\r\n" + 
-	    		"<meta charset=\"ISO-8859-1\">\r\n" + 
-	    		"<title>Covid Query</title>\r\n" +
-	    		"<h1>Welcome to Covid Query</h1>\r\n" +
-	    		"</head>\r\n" + 
-	    		"\r\n" +
-	    		"<style>\r\n" +
-	    		//Definir estilo (?)
-	    		"</style>\r\n" +
-	    		"<body>\r\n" + 
-	    		/*
-	    		 * Corpo !
-	    		 */
-	    		"	<form action=\"http://192.168.99.100/cgi-bin/cgi-java.sh\" method=\"POST\">\r\n" +
-	    		"		<label for=\"Regiao\">Região:</label>\r\n" +
-	    		"		<select id=\"Regiao\" name=\"Regiao\">\r\n";
-			for(String s : getRegions()) {
-				codigohtml+= "		<option value="+s+">"+s+"</option>\r\n";
+			String codigohtml = "<!DOCTYPE html>\r\n" + "<html>\r\n" + "<head>\r\n"
+					+ "<meta charset=\"ISO-8859-1\">\r\n" + "<title>Covid Query</title>\r\n"
+					+ "<h1>Welcome to Covid Query</h1>\r\n" + "</head>\r\n" + "\r\n" + "<style>\r\n" +
+					// Definir estilo (?)
+					"</style>\r\n" + "<body>\r\n" +
+					/*
+					 * Corpo !
+					 */
+					"	<form action=\"http://192.168.99.100/cgi-bin/cgi-java.sh\" method=\"POST\">\r\n"
+					+ "		<label for=\"Regiao\">Região:</label>\r\n"
+					+ "		<select id=\"Regiao\" name=\"Regiao\">\r\n";
+			for (String s : getRegions()) {
+				codigohtml += "		<option value=" + s + ">" + s + "</option>\r\n";
 			}
-				codigohtml+=
-				"		</select><p>\r\n" +
-			    "		<label for=\"Propriedade\">Propriedade:</label>\r\n" +
-				"		<select id=\"Propriedade\" name=\"Propriedade\">\r\n";
-			for(String s : getDatatypeProperty()) {
-				codigohtml+= "		<option value="+s+">"+s+"</option>\r\n";
+			codigohtml += "		</select><p>\r\n" + "		<label for=\"Propriedade\">Propriedade:</label>\r\n"
+					+ "		<select id=\"Propriedade\" name=\"Propriedade\">\r\n";
+			for (String s : getDatatypeProperty()) {
+				codigohtml += "		<option value=" + s + ">" + s + "</option>\r\n";
 			}
-				codigohtml+=
-				"		</select><p>\r\n";
-				codigohtml+=
-			    "		<label for=\"Operadores\">Operadores:</label>\r\n" +
-				"		<select id=\"Operadores\" name=\"Operadores\">\r\n";
-			for(String s : operators ) {
-				codigohtml+= "		<option value="+s+">"+s+"</option>\r\n";
+			codigohtml += "		</select><p>\r\n";
+			codigohtml += "		<label for=\"Operadores\">Operadores:</label>\r\n"
+					+ "		<select id=\"Operadores\" name=\"Operadores\">\r\n";
+			for (String s : operators) {
+				codigohtml += "		<option value=" + s + ">" + s + "</option>\r\n";
 			}
-				codigohtml+=
-				"		</select><p>\r\n";
-				codigohtml +=
-				"		<input type=\"text\" id=\"Valor\" name=\"Valor\"><p>\r\n";
-			    		
-	    		codigohtml +=
-	    		"		<input type=\"submit\" value=\"Submit\">\r\n" +
-	    		"	</form>\r\n" + 
-	    		"</body>\r\n" + 
-	    		"</html>";
+			codigohtml += "		</select><p>\r\n";
+			codigohtml += "		<input type=\"text\" id=\"Valor\" name=\"Valor\"><p>\r\n";
+
+			codigohtml += "		<input type=\"submit\" value=\"Submit\">\r\n" + "	</form>\r\n" + "</body>\r\n"
+					+ "</html>";
 			writer.write(codigohtml);
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		    
+		}
 	}
 
 	public static void main(String[] args) {
 		CovidFormCreator.createHTMLForm();
-
-		/*try {
-			String query = "/RDF/NamedIndividual/@*";
-			System.out.println("Query para obter a lista das regiões: " + query);
-			XPathFactory xpathFactory = XPathFactory.newInstance();
-			XPath xpath = xpathFactory.newXPath();
-			XPathExpression expr = xpath.compile(query);
-			NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-			for (int i = 0; i < nl.getLength(); i++) {
-				System.out.println(nl.item(i).getNodeValue());
-				System.out.println(StringUtils.substringAfter(nl.item(i).getNodeValue(), "#"));
-			}
-
-			query = "//*[contains(@about,'Algarve')]/Testes/text()";
-			System.out.println("Query para obter o número de testes feitos no Algarve: " + query);
-			expr = xpath.compile(query);
-			System.out.println(expr.evaluate(doc, XPathConstants.STRING));
-
-			query = "//*[contains(@about,'Algarve')]/Infecoes/text()";
-			System.out.println("Query para obter o número de infeções no Algarve: " + query);
-			expr = xpath.compile(query);
-			System.out.println(expr.evaluate(doc, XPathConstants.STRING));
-
-			query = "//*[contains(@about,'Algarve')]/Internamentos/text()";
-			System.out.println("Query para obter o número de internamentos no Algarve: " + query);
-			expr = xpath.compile(query);
-			System.out.println(expr.evaluate(doc, XPathConstants.STRING));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
 	}
 }
