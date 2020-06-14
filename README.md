@@ -16,6 +16,7 @@ Stefan Tataru 78965 stunt@iscte-iul.pt
 
 O grupo não conseguiu correr ficheiros Junit dentro do container.
 
+O grupo não conseguiu correr queries dentro do container.
 
 
 
@@ -28,7 +29,7 @@ O site ContactUs não funciona da melhor forma pois depende de um serviço SMTP 
 
 Como para o requisito 2 é preciso verificar a disponibilidade do email, será preciso enviar "à mão" um email para o recetor.
 
-
+Para os requsitos 3, 4, 5, e 6 tem que se correr o ficheiro jar para gerar o código HTML.
 
 
 
