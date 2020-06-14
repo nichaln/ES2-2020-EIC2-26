@@ -78,7 +78,7 @@ public class TesteSite {
 		messageContent = "";
 		System.setProperty("webdriver.chrome.driver", "C://Users//nicha//Desktop//chromedriver.exe");
 		ChromeOptions chrome = new ChromeOptions();
-//		chrome.setHeadless(true);
+		chrome.setHeadless(true);
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
 	}
@@ -106,7 +106,7 @@ public class TesteSite {
 			}
 			j++;
 		}
-//		sendEmail();
+		sendEmail();
 		writeHtmlFile();
 		clearInbox();
 	}
@@ -124,7 +124,6 @@ public class TesteSite {
 		} else { // send email erro a aceder à pagina
 			messageContent+="\n Erro ao aceder à pagina: \""+ url + "\". Nome da página esperado: "+ "\""+pagename+"\", Nome obtido: " +
 			"\""+ driver.getTitle()+"\".\n";
-			System.out.println(messageContent);
 			urlstatus.setStatus("<b style=\"color:#ff0000\">DOWN</b>");
 		}
 		urlsStatus.add(urlstatus);
@@ -159,12 +158,10 @@ public class TesteSite {
 		
 		System.out.println(driver.getTitle());
 		if (driver.getTitle().equals(resultPage) && !stop) {
-			System.out.println("Sucesso");
 			urlstatus.setStatus("<b style=\"color:#00ff00\">OK</b>");
 		}else {
 			messageContent+="\n Erro ao aceder à pagina: \""+ url + "\". Nome da página esperado: "+ "\""+resultPage+"\", Nome obtido: " +
 					"\""+ driver.getTitle()+"\". Numero de inputs introduzidos: "+ inputs.length + ".\n";
-			System.out.println(messageContent);
 			urlstatus.setStatus("<b style=\"color:#ff0000\">DOWN</b>");
 		}
 		if(p.getProperty(type+"_check_email") != null) {

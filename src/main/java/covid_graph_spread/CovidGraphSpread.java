@@ -24,7 +24,7 @@ public class CovidGraphSpread {
 		FileWriter fWriter = null;
 		BufferedWriter writer = null;
 		try {
-		    fWriter = new FileWriter("C:\\Users\\katsa\\git\\ES2-2020-EIC2-26\\src\\main\\java\\covid_graph_spread\\webSpreadTable.html");
+		    fWriter = new FileWriter("C:\\Users\\nicha\\wordpress2\\html\\wp-admin\\webSpreadTable.html");
 		    writer = new BufferedWriter(fWriter);
 		    writer.write("<!DOCTYPE html>\r\n" + 
 		    		"<html>\r\n" + 
