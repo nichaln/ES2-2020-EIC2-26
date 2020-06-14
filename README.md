@@ -26,7 +26,7 @@ No requisito 2, para efetuar a verificação a cada duas horas, não conseguimos
 
 O site ContactUs não funciona da melhor forma pois depende de um serviço SMTP que não é 100% fiável.
 
-Como para o requisito 2 é preciso verificar a disponibilidade do email, 
+Como para o requisito 2 é preciso verificar a disponibilidade do email, será preciso enviar "à mão" um email para o recetor.
 
 
 
