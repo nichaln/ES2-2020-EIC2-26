@@ -24,6 +24,8 @@ import org.apache.commons.lang3.StringUtils;
 
 public class CovidFormCreator {
 	
+	private static String[] operators = { "=", "!", "!=", "<", ">", "<=", ">=" };
+	
 	private static void downloadFile() {
 		Repository repository = app.Utils.getGitRepository();
 		try {
@@ -43,7 +45,6 @@ public class CovidFormCreator {
 
 				ObjectId objectId = treeWalk.getObjectId(0);
 				ObjectLoader loader = repository.open(objectId);
-//				loader.copyTo(System.out);
 				byte[] bytes = loader.getBytes();
 				FileOutputStream fos = new FileOutputStream("covid19spreading.rdf");
 				fos.write(bytes);
@@ -91,7 +92,6 @@ public class CovidFormCreator {
 			expr = xpath.compile(query);
 			NodeList nl = (NodeList) expr.evaluate(openDocument(), XPathConstants.NODESET);
 			for (int i = 0; i < nl.getLength(); i++) {
-//				System.out.println(nl.item(i).getNodeValue());
 				arrayList.add(StringUtils.substringAfter(nl.item(i).getNodeValue(), "#"));
 			}
 		} catch (XPathExpressionException e) {
@@ -110,7 +110,6 @@ public class CovidFormCreator {
 			expr = xpath.compile(query);
 			NodeList nl = (NodeList) expr.evaluate(openDocument(), XPathConstants.NODESET);
 			for (int i = 0; i < nl.getLength(); i++) {
-//				System.out.println(nl.item(i).getNodeValue());
 				arrayList.add(StringUtils.substringAfter(nl.item(i).getNodeValue(), "#"));
 			}
 		} catch (XPathExpressionException e) {
@@ -124,7 +123,7 @@ public class CovidFormCreator {
 		BufferedWriter writer = null;
 		try {
 			String path = "C:\\Users\\jmjmf\\git\\ES2-2020-EIC2-26\\src\\main\\java\\covid_query\\formulario.html";
-//			path = "merda do wordpress"; 
+//			path = "cena do wordpress"; 
 			fWriter = new FileWriter(path);
 			writer = new BufferedWriter(fWriter);
 			String codigohtml =
@@ -157,11 +156,20 @@ public class CovidFormCreator {
 				codigohtml+= "		<option value="+s+">"+s+"</option>\r\n";
 			}
 				codigohtml+=
-				"		</select>\r\n";
-			    		
+				"		</select><p>\r\n";
+				codigohtml+=
+			    "		<label for=\"Operadores\">Operadores:</label>\r\n" +
+				"		<select id=\"Operadores\" name=\"Operadores\">\r\n";
+			for(String s : operators ) {
+				codigohtml+= "		<option value="+s+">"+s+"</option>\r\n";
+			}
+				codigohtml+=
+				"		</select><p>\r\n";
+				codigohtml +=
+				"		<input type=\"text\" id=\"Valor\" name=\"Valor\"><p>\r\n";
 			    		
 	    		codigohtml +=
-	    		"		<p><input type=\"submit\" value=\"Submit\">\r\n" +
+	    		"		<input type=\"submit\" value=\"Submit\">\r\n" +
 	    		"	</form>\r\n" + 
 	    		"</body>\r\n" + 
 	    		"</html>";
@@ -173,8 +181,6 @@ public class CovidFormCreator {
 	}
 
 	public static void main(String[] args) {
-		
-//		test.performQuery("//*[contains(@about,'Algarve')]/Internamentos/text()");
 		CovidFormCreator.createHTMLForm();
 
 		/*try {
