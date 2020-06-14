@@ -1,15 +1,15 @@
 # ES2-2020-EIC2-26 
-André Barão 78352 
+André Barão 78352 afdbo@iscte-iul.pt
 
-Henrique Gaspar 82304 
+Henrique Gaspar 82304 hapgr@iscte-iul.pt
 
-João Faria 78980 
+João Faria 78980 jmjmf@iscte-iul.pt
 
-Nichal Narotamo 82247 
+Nichal Narotamo 82247 nanok@iscte-iul.pt
 
-Pedro Fonseca 82131 
+Pedro Fonseca 82131 pgvbm@iscte-iul.pt
 
-Stefan Tataru 78965 
+Stefan Tataru 78965 stunt@iscte-iul.pt
 
 
 Funcionalidades não implementadas:
