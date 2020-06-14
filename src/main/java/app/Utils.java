@@ -80,6 +80,11 @@ public class Utils {
 		return git;
 	}
 	
+	public static Git git() {
+		Git git = getGit();
+		return git;
+	}
+	
 	public static Repository getGitRepository() {
 		Git git = getGit();
 		return git.getRepository();
