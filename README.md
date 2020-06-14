@@ -34,9 +34,9 @@ Como para o requisito 2 é preciso verificar a disponibilidade do email, será p
 
 **Instruções de utilização:**
 
-Fazer o unzip da pasta mysql, e copiar o conteúdo que está dentro dessa pasta para C:/Users/Wordpress/db_data
+Copiar o conteúdo que está dentro da pasta mysql para C:/Users/Wordpress/db_data
 
-Fazer o unzip da pasta html, e copiar o conteúdo que está dentro dessa pasta para C:/Users/Wordpress/html
+Copiar a pasta html para C:/Users/Wordpress/html
 
 Copiar o ficheiro docker-compose-yml para dentro da pasta C:/Users/Wordpress (as imagens são descarregadas do dockerHub)
 
