@@ -11,9 +11,25 @@ Pedro Fonseca 82131
 
 Stefan Tataru 78965 
 
+
 Funcionalidades não implementadas:
 
+O grupo não conseguiu correr ficheiros .jar dentro do container.
+
+
+
+
 Funcionalidades com erros/parcialmente implementadas:
+
+No requisito 2, para efetuar a verificação a cada duas horas, não conseguimos por o ficheiro de testes a correr dentro do container
+(devido a falta de dependências).
+
+O site ContactUs não funciona da melhor forma pois depende de um serviço SMTP que não é 100% fiável.
+
+Como para o requisito 2 é preciso verificar a disponibilidade do email, 
+
+
+
 
 
 Instruções de utilização:
