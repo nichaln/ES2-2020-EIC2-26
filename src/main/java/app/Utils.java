@@ -50,7 +50,7 @@ public class Utils {
 		}
 	}
 
-	private static Git getGit() {
+	public static Git getGit() {
 		File rep = new File("/Repositorio");
 		Git git = null;
 		if (rep.exists()) { // Repository exists, opening, and 
@@ -77,11 +77,6 @@ public class Utils {
 			}
 		
 		}
-		return git;
-	}
-	
-	public static Git git() {
-		Git git = getGit();
 		return git;
 	}
 	

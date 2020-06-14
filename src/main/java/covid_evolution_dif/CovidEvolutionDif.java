@@ -38,7 +38,7 @@ public class CovidEvolutionDif {
 	void getTags() {
 		//Buscar referencias para commits com tags e criar uma lista com todas as tags	
 		try {
-			call =  app.Utils.git().tagList().call();
+			call =  app.Utils.getGit().tagList().call();
 		} catch (GitAPIException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
