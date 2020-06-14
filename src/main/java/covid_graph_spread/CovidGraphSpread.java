@@ -2,29 +2,28 @@ package covid_graph_spread;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import app.Utils;
 import app.Utils.fileInformation;
-import pl.edu.icm.cermine.ContentExtractor;
-import pl.edu.icm.cermine.exception.AnalysisException;
-import pl.edu.icm.cermine.metadata.model.DateType;
-import pl.edu.icm.cermine.metadata.model.DocumentMetadata;
-import pl.edu.icm.cermine.tools.timeout.TimeoutException;
+/**
+ * 
+ * @author hapgr@iscte-iul.pt
+ * 
+ * */
 
 public class CovidGraphSpread {
 	
 	Utils fileInformations;
 	
+	/**
+	 * Escreve o html da tabela num ficheiro
+	 */
 	public void writeHTML() {
 		FileWriter fWriter = null;
 		BufferedWriter writer = null;
 		try {
-		    fWriter = new FileWriter("C:\\Users\\nicha\\wordpress2\\html\\wp-admin\\webSpreadTable.html");
+		    fWriter = new FileWriter(System.getProperty("user.home")+"\\Wordpress\\html\\wp-admin\\webSpreadTable.html");
 		    writer = new BufferedWriter(fWriter);
 		    writer.write("<!DOCTYPE html>\r\n" + 
 		    		"<html>\r\n" + 
@@ -61,6 +60,10 @@ public class CovidGraphSpread {
 		}
 	}
 	
+	/**
+	 * Método para ir buscar todas as linhas que serão adicionadas à tabela dependendo dos ficheiros existentes no repositorio git
+	 * @return String das linhas da tabela
+	 */
 	public String getLines() {
 		fileInformations = new Utils();
 		List<fileInformation> files = fileInformations.getInformations();

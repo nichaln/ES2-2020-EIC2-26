@@ -8,7 +8,6 @@ import java.util.List;
 import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
-import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.*;
@@ -16,40 +15,68 @@ import org.eclipse.jgit.revwalk.*;
 import org.eclipse.jgit.treewalk.*;
 import org.eclipse.jgit.treewalk.filter.*;
 
+/**
+ * 
+ * @author Grupo 26
+ *
+ */
 public class Utils {
 	List<ObjectId> idsDasTags = new LinkedList<ObjectId>();
 	List<Ref> call;
 	List<fileInformation> informations = new LinkedList<fileInformation>();
 	
-	/*
-	 * Consegui aceder ao ficheiro daqui para todos usarmos :)
+	/**
 	 * 
+	 * @author hapgr@iscte-iul.pt
+	 *
 	 */
-	
-	//Classe nova para ser mais facil de passar informação sobre os ficheiros para fora
 	public class fileInformation {
-		Date timestamp;
-		String fileName, tagName, tagDescription;		
+		private Date timestamp;
+		private String fileName, tagName, tagDescription;	
+		
+		/**
+		 * Classe criada para ser mais facil no CovidGraphSpread aceder a todas as informações do commit
+		 * @param timestamp
+		 * @param filename
+		 * @param tagName
+		 * @param tagDescription
+		 */
 		public fileInformation(Date timestamp, String filename, String tagName, String tagDescription) {
 			this.timestamp = timestamp;
 			this.fileName = filename;
 			this.tagName = tagName;
 			this.tagDescription = tagDescription;
 		}
+		/**
+		 * @return o timestamp do commit do git
+		 */
 		public Date getTimestamp() {
 			return timestamp;
 		}
+		/**
+		 * @return o nome do ficheiro recebido do git
+		 */
 		public String getFileName() {
 			return fileName;
 		}
+		/**
+		 * @return o nome da tag do commit do git
+		 */
 		public String getTagName() {
 			return tagName;
 		}
+		/**
+		 * @return a descrição do commit no git
+		 */
 		public String getTagDescription() {
 			return tagDescription;
 		}
 	}
 
+	/**
+	 * 
+	 * @return o repositório git a que se quer aceder
+	 */
 	public static Git getGit() {
 		File rep = new File("/Repositorio");
 		Git git = null;
@@ -80,39 +107,38 @@ public class Utils {
 		return git;
 	}
 	
+	/**
+	 * 
+	 * @return o repositório git
+	 */
 	public static Repository getGitRepository() {
 		Git git = getGit();
 		return git.getRepository();
 	}
 
-	void readFile() throws RevisionSyntaxException, NoHeadException, GitAPIException {
+	/**
+	 * Ir buscar os ficheiros e retirar informação de o ficheiro do repositório git
+	 */
+	void readFile(){
 		Repository repository = getGitRepository();
-	
-		
-		//Buscar referencias para commits com tags e criar uma lista com todas as tags
-		call = getGit().tagList().call();
+		try {
+			call = getGit().tagList().call();
+		} catch (GitAPIException e1) {
+			e1.printStackTrace();
+		}
 		for (Ref ref : call) {
 		    idsDasTags.add(ref.getObjectId());
 		}
-		// a RevWalk allows to walk over commits based on some filtering that is defined
 		try {
-			//Usar este ID para obter o ficheiro master mas não é preciso
-			ObjectId lastCommitId = repository.resolve(Constants.HEAD);
 			RevWalk revWalk = new RevWalk(repository);
-			//Percorrer a lista criada de tags, e procurar commits com o ID das tags
 			for(int i = 0; i<idsDasTags.size(); i++) {
-				//Encontrar o commit com id da tag i
 				RevCommit commit = revWalk.parseCommit(idsDasTags.get(i));
-				
-				//Receber informação do commit
 				PersonIdent author = commit.getAuthorIdent();
 				Date timestamp = author.getWhen();
 				String fileTag = call.get(i).getName();
 				String tagDescription = commit.getShortMessage();
-				//Fim da primeira parte
 				
 				RevTree tree = commit.getTree();
-				// e depois faz o download do covid19spreading.rdf
 			try {
 				TreeWalk treeWalk = new TreeWalk(repository);
 				treeWalk.addTree(tree);
@@ -125,17 +151,10 @@ public class Utils {
 
 				ObjectId objectId = treeWalk.getObjectId(0);
 				ObjectLoader loader = repository.open(objectId);
-				// and then one can the loader to read the file
-				//loader.copyTo(System.out);
 				byte[] bytes = loader.getBytes();
 				FileOutputStream fos = new FileOutputStream("covid19spreading"+i+".rdf");
-				
-				//continuação de recolha de informação do commit
 				String fileName = "covid19spreading"+i+".rdf";
 				informations.add(new fileInformation(timestamp, fileName, fileTag, tagDescription ));
-				//Fim de recolha de informação
-				
-				//System.out.println("Vou escrever o " + fos.toString());
 				fos.write(bytes);
 				fos.close();
 				treeWalk.close();
@@ -150,17 +169,14 @@ public class Utils {
 
 	}
 	
-	
+	/**
+	 * 
+	 * @return lista com toda a informação necessária dos commits dos ficheiros
+	 */
 	public List<fileInformation> getInformations() {
 		try {
 			readFile();
 		} catch (RevisionSyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoHeadException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (GitAPIException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -171,12 +187,6 @@ public class Utils {
 		try {
 			new Utils().readFile();
 		} catch (RevisionSyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoHeadException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (GitAPIException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
