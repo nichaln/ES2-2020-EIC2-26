@@ -21,51 +21,67 @@ import pl.edu.icm.cermine.exception.AnalysisException;
 import pl.edu.icm.cermine.metadata.model.DateType;
 import pl.edu.icm.cermine.metadata.model.DocumentAuthor;
 import pl.edu.icm.cermine.metadata.model.DocumentMetadata;
-
+/**
+ * ISCTE Lisbon University Institute
+ * @author Stefan Tataru (78965)
+ * 
+ *
+ */
 public class CovidSciDiscoveries {
 	
-	private String pathPDF; //localizacao dos documentos PDF;
-	private String pathHTML; //localizacao do ficheiro HTML;
+	private String pathPDF; 
+	private String pathHTML; 
+	/**
+	 * 
+	 * @param pathPDF  Localizacao dos documentos PDF,path diretoria;
+	 * @param pathHTML Localizacao do ficheiro HTML,path ficheiro HTML;
+	 */ 
 
-	//Construtor
+
 	public CovidSciDiscoveries(String pathPDF, String pathHTML) {
 		this.pathPDF = pathPDF;
 		this.pathHTML = pathHTML;
 	}
-	//Metodo que devia correr quando alguem atualiza a diretoria
-	private void run() { //se ja tiver ficheiro HTML
+	
+	/**
+	 * Metodo que corre sempre que a pagina HTML e acedida
+	 */
+	private void run() {
 		File fileHTML = new File(pathHTML);
-		if(fileHTML.exists() && !fileHTML.isDirectory()) {
+		if(fileHTML.exists() && !fileHTML.isDirectory()) {//caso exista um ficheiro HTML
 			List<URL> listURL = listDocumentsURL();//URLs presentes no diretorio 
-			List<URL> htmlURL = listHtmlURL();//URLs presentes no HTML
+			List<URL> htmlURL = listHtmlURL();//URLs presentes no ficheiro HTML
 			List<URL> addListURL = new ArrayList<URL>();//URLs que devem ser adicionados
 			List<URL> removeListURL = new ArrayList<URL>();//URLS que devem ser removidos
 
-			for(URL u : listURL) { //percorer os documentos da diretoria e ver se nao falta nehum no html
+			for(URL u : listURL) { //percorer os documentos da diretoria e ver se nao falta nehum no ficheiro HTML
 				if(!htmlURL.contains(u))
 					addListURL.add(u);
 			}
 			
-			for(URL u : htmlURL) {//percrer o html e ver os documentos e ver se algum esta a mais que foi removido da diretoria
+			for(URL u : htmlURL) {//percrer o ficheiro HTML e ver se algum documento esta a mais que foi removido da diretoria
 				if(!listURL.contains(u))
 					removeListURL.add(u);
 			}
 			
-			if(!addListURL.isEmpty())
-				addURLs(addListURL);//adicionar URLs em falta ao ficheiro HTML
-			if(!removeListURL.isEmpty())
-				removeURLs(removeListURL);//retirar URLs a mais que estao no ficheiro HTML
+			if(!addListURL.isEmpty())//adicionar URLs em falta ao ficheiro HTML
+				addURLs(addListURL);
+			if(!removeListURL.isEmpty())//retirar URLs a mais que estao no ficheiro HTML
+				removeURLs(removeListURL);
 			System.out.println("ficheiro atualizado!!!");
 			
 		}
-		else {
+		else {//caso nao exista um ficheiro HTML
 			writeHTML();
 			System.out.println("ficheiro escrevido");
 		}
 	}
 	
-	//Metodo para listar os documentos PDF que se encontram no caminho path 
-	//(String path) especifica onde os documentos PDF estao guardados
+	/**
+	 * Metodo para listar os documentos PDF que se encontram no caminho path 
+	 * 
+	 * @return List<URL> 
+	 */
 	private List<URL> listDocumentsURL() {
 		List<URL> listURL = new ArrayList<URL>();//lista que guarda os URL de todos os documentos pdf
 		File directory = new File(pathPDF); // especificacao do path
@@ -86,8 +102,12 @@ public class CovidSciDiscoveries {
 			}
 			return listURL;
 	}
-		
-	//Metodo para listar os documentos PDF que se encontram num fiehrio HTML, utilizando o JSOUP
+	/**
+	 * Metodo para listar os documentos PDF que se encontram num fiehrio HTML
+	 * Utilizacao do JSOUP
+	 * 
+	 * @return List<URL>
+	 */
 	private List<URL> listHtmlURL() {
 		List<URL> htmlURL = new ArrayList<URL>();//lista que guarda os URLs dos documentos do HTML
 			
@@ -104,8 +124,13 @@ public class CovidSciDiscoveries {
 		}
 		return htmlURL;
 	}
-		
-	//Metodo auxiliar ao run
+	/**
+	 * Metodo auxiliar ao metodo Run,
+	 * adiciona blocos em falta ao ficheiro HTML,isto e,linhas da tabela
+	 * Utilizacao do JSOUP
+	 * 
+	 * @param addListURL
+	 */
 	private void addURLs(List<URL> addListURL) {
 		File input = new File(pathHTML);
 		try {
@@ -121,7 +146,14 @@ public class CovidSciDiscoveries {
 		}
 	}
 		
-	//Metodo auxiliar ao run
+	/**
+	 * Metodo auxiliar ao metodo Run,
+	 * remove blocos em falta ao ficheiro HTML,isto e,linhas da tabela
+	 * Utilizacao do JSOUP
+	 * 
+	 * @param removeListURL
+	 */
+
 	private void removeURLs(List<URL> removeListURL) {
 		File input = new File(pathHTML);
 		try {
@@ -137,8 +169,10 @@ public class CovidSciDiscoveries {
 		}	
 	}
 	
-	//Metodo que gera o codigo HTML todo para no ficheiro webTable.html
-	//(String path) especifica onde o ficheiro HTML vai ficar guardado e o nome do mesmo
+	/**
+	 * Metodo que gera o fiheiro Parte3HTML.html com o codigo HTML
+	 * 
+	 */
 	private void writeHTML() {
 		try {
 			FileWriter fWriter = new FileWriter(new File(pathHTML));
@@ -179,8 +213,13 @@ public class CovidSciDiscoveries {
 				e.printStackTrace();
 			}
 	}
-	
-	//Metodo auxiliar writeHTML para escrever todas as linhas no HTML como uma string
+	/**
+	 * Metodo auxiliar ao writeHTML,
+	 * devolve uma string que corresppnde
+	 * a blocos HTML,isto e,linhas da tabela
+	 * 
+	 * @return String
+	 */
 	private String writeLinesHTML() {
 		List<URL> listURL = listDocumentsURL();
 		String s = "";
@@ -190,6 +229,14 @@ public class CovidSciDiscoveries {
 		return s;
 	}
 	
+	/**
+	 * Metodo auxiliar ao writeLinasHTML,
+	 * devolve uma string que corresppnde
+	 * a um bloco HTML,isto e, uma linha da tabela
+	 * 
+	 * @param url
+	 * @return String
+	 */
 	//Metodo para escrever uma linha no HTML usando o CERMINE
 	private String generateLine(URL url)  {
 		String resultString = "Problema ao extrair informacao do URL:"+url.toString()+";";
@@ -221,8 +268,12 @@ public class CovidSciDiscoveries {
 		}
 		return resultString;
 	}
-		
-	//Metodo auxiliar ao getLine para escrever o nome de todos os autores
+	/**
+	 * Metodo auxiliar ao getLine,
+	 * devolve o nome de todos os autores
+	 * @param autors
+	 * @return List<String>
+	 */
 	private List<String> generateAutorLine(List<DocumentAuthor> autors) {
 		List<String> autorNames = new ArrayList<String>();
 		for(DocumentAuthor autor:autors) {
@@ -232,9 +283,7 @@ public class CovidSciDiscoveries {
 	}	
 
 	public static void main (String[]args) {
-		
-	
-		CovidSciDiscoveries test = new CovidSciDiscoveries("\\C:\\Users\\L3g4c\\Desktop\\pdfs","C:\\Users\\L3g4c\\git\\ES2-2020-EIC2-26\\Parte3HTML.html");
+		CovidSciDiscoveries test = new CovidSciDiscoveries(System.getProperty("user.home")+"\\wordpress\\Parte3Repositorio",System.getProperty("user.home")+"\\wordpress\\html\\wp-admin\\Parte3HTML.html");
 		test.writeHTML();
 		System.out.println("HTML foi escrito com sucesso");
 		
@@ -248,11 +297,6 @@ public class CovidSciDiscoveries {
 				e.printStackTrace();
 			}
 		}
-
-		/**
-		CovidSciDiscoveries test = new CovidSciDiscoveries(System.getProperty("user.home") + "/Desktop",System.getProperty("user.home") + "/Desktop");
-		test.run();
-		**/
 	}
 	
 }
