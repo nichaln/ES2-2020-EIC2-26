@@ -2,12 +2,9 @@ package covid_evolution_dif;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,11 +26,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 
-import com.google.common.io.Files;
-
 import org.apache.commons.io.FileUtils;
-import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
-import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch.Diff;;
+import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;;
 
 public class CovidEvolutionDif {
 
@@ -51,7 +45,6 @@ public class CovidEvolutionDif {
 		}
 		for (Ref ref : call) {
 			ids.add(ref.getObjectId());
-			System.out.println(ref.toString());
 		}
 	}
 	
@@ -81,7 +74,7 @@ public class CovidEvolutionDif {
 				map.put(ids.get(i), timestamp);
 				
 			}
-			System.out.println(map.toString());
+			revWalk.close();
 	}
 	
 	ObjectId mostRecent() { 
@@ -95,7 +88,6 @@ public class CovidEvolutionDif {
 			}
 		}
 		map.remove(id);
-		System.out.println("devolvi o id" + id);
 		return id;
 	}
 	
@@ -128,7 +120,6 @@ public class CovidEvolutionDif {
 					byte[] bytes = loader.getBytes();
 					FileOutputStream fos = new FileOutputStream("covid19spreading_recent"+i+".rdf");
 
-					//System.out.println("Vou escrever o " + fos.toString());
 					fos.write(bytes);
 					fos.close();
 					treeWalk.close();
@@ -144,6 +135,7 @@ public class CovidEvolutionDif {
 	}
 	
 	public void writeHTML() {
+		getFiles();
 		FileWriter fWriter = null;
 		BufferedWriter writer = null;
 		try {
@@ -169,88 +161,12 @@ public class CovidEvolutionDif {
 		        	"	</div>\r\n" +
 		    		"</body>\r\n" + 
 		    		"</html>");
-		    writer.close();
-		    
+		    writer.close();	    
 		} catch (Exception e) {
 		  //catch any exceptions here
 		}
 	}
 
-	/*List<String> writeDocs() {
-		File file0=new File("C:\\Users\\Catando\\git\\ES2-2020-EIC2-26\\covid19spreading_recent0.rdf");   
-		File file1=new File("C:\\Users\\Catando\\git\\ES2-2020-EIC2-26\\covid19spreading_recent1.rdf");
-		int c0=0;
-		int c1=0;
-		int c0next=0;
-		int c1next=0;
-		String htmldoc0 = "";
-		String htmldoc1 = "";
-		int mark=0;
-		List<String> list = new LinkedList<String>();
-		
-		try {
-			FileInputStream fis0=new FileInputStream(file0);
-			FileInputStream fis1=new FileInputStream(file1);
-			FileInputStream fis00=new FileInputStream(file0);
-			FileInputStream fis11=new FileInputStream(file1); 
-			//<mark>milk</mark>
-			try {
-				fis00.read();
-				fis11.read();
-				while((c0=fis0.read())!=-1 && (c1=fis1.read())!=-1)  {
-					c0next=fis00.read();
-					c1next=fis11.read();
-					
-					if(c0==c1){
-						htmldoc0 += (char)c0;
-						htmldoc1 += (char)c1;
-					}
-										
-					if(c1!=c0 && mark==1 && c0next!=c1next){
-						htmldoc0 += (char)c0;
-						htmldoc1 += (char)c1;
-						
-					}
-					
-					if(c1!=c0 && mark==0 && c0next==c1next){
-						htmldoc0 += "<mark>" + (char)c0 + "</mark>";
-						htmldoc1 += "<mark>" + (char)c1 + "</mark>";
-						
-					}
-					
-					if(c1!=c0 && mark==1 && c0next==c1next){
-						htmldoc0 += (char)c0 + "</mark>";
-						htmldoc1 += (char)c0 + "</mark>";
-						mark--;
-						
-					}
-					else {
-						if(c1!=c0 && mark==0 && c0next!=c1next){
-							htmldoc0 += "<mark>" + (char)c0;
-							htmldoc1 += "<mark>" + (char)c1;
-							mark++;
-						}	
-					}
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}  
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	//	System.out.println(htmldoc0);
-	//	System.out.println(htmldoc1);
-		
-		htmldoc0 = htmldoc0.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\"", "&quot;");
-		htmldoc1 = htmldoc1.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\"", "&quot;");
-		list.add("<p>" + htmldoc0 + "</p>\r\n");
-		list.add("<p>" + htmldoc1 + "</p>\r\n");
-		return list;
-	}*/
 	List<String> writeDocs(){
 		
 		List<String> list = new ArrayList<String>();
@@ -274,7 +190,7 @@ public class CovidEvolutionDif {
 		
 		DiffMatchPatch dmp = new DiffMatchPatch();
 		LinkedList<DiffMatchPatch.Diff> diff = dmp.diffMain(doc1, doc2);
-		dmp.diffCleanupSemantic(diff);
+		dmp.diffPrettyHtml(diff);
 		
 		String html0="<p>";
 		String html1="<p>";
@@ -290,8 +206,6 @@ public class CovidEvolutionDif {
 		}
 		html0 += "</p>";
 		html1 += "</p>";
-		System.out.println(html0);
-		System.out.println(html1);
 		list.add(html0);
 		list.add(html1);
 		return list ;
