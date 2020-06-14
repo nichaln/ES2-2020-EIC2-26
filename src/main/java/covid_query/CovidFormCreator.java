@@ -123,7 +123,9 @@ public class CovidFormCreator {
 		FileWriter fWriter = null;
 		BufferedWriter writer = null;
 		try {
-			fWriter = new FileWriter("C:\\Users\\jmjmf\\git\\ES2-2020-EIC2-26\\src\\main\\java\\covid_query\\formulario.html");
+			String path = "C:\\Users\\jmjmf\\git\\ES2-2020-EIC2-26\\src\\main\\java\\covid_query\\formulario.html";
+//			path = "merda do wordpress"; 
+			fWriter = new FileWriter(path);
 			writer = new BufferedWriter(fWriter);
 			String codigohtml =
 				"<!DOCTYPE html>\r\n" + 
