@@ -1,27 +1,58 @@
 package app;
 
 import java.io.*;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.TransportException;
+import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.*;
 import org.eclipse.jgit.treewalk.*;
 import org.eclipse.jgit.treewalk.filter.*;
 
 public class Utils {
-	Git git;
-	Repository repository;
+	List<ObjectId> idsDasTags = new LinkedList<ObjectId>();
+	List<Ref> call;
+	List<fileInformation> informations = new LinkedList<fileInformation>();
 	
 	/*
 	 * Consegui aceder ao ficheiro daqui para todos usarmos :)
 	 * 
 	 */
+	
+	//Classe nova para ser mais facil de passar informação sobre os ficheiros para fora
+	public class fileInformation {
+		Date timestamp;
+		String fileName, tagName, tagDescription;		
+		public fileInformation(Date timestamp, String filename, String tagName, String tagDescription) {
+			this.timestamp = timestamp;
+			this.fileName = filename;
+			this.tagName = tagName;
+			this.tagDescription = tagDescription;
+		}
+		public Date getTimestamp() {
+			return timestamp;
+		}
+		public String getFileName() {
+			return fileName;
+		}
+		public String getTagName() {
+			return tagName;
+		}
+		public String getTagDescription() {
+			return tagDescription;
+		}
+	}
 
-	void accessGit() {
+	public static Git getGit() {
 		File rep = new File("/Repositorio");
+		Git git = null;
 		if (rep.exists()) { // Repository exists, opening, and 
 			try {
 				git = Git.open(new File("/Repositorio/.git"));
@@ -41,25 +72,47 @@ public class Utils {
 				System.err.println("Error - Transport " + e);
 				e.printStackTrace();
 			} catch (GitAPIException e) {
-				System.err.println("Error - GitAPI " + e);
+				System.err.println("Error  - GitAPI " + e);
 				e.printStackTrace();
 			}
 		
 		}
-		repository = git.getRepository();
+		return git;
+	}
+	
+	public static Repository getGitRepository() {
+		Git git = getGit();
+		return git.getRepository();
 	}
 
-	void readFile() {
-		accessGit();
+	void readFile() throws RevisionSyntaxException, NoHeadException, GitAPIException {
+		Repository repository = getGitRepository();
+	
+		
+		//Buscar referencias para commits com tags e criar uma lista com todas as tags
+		call = getGit().tagList().call();
+		for (Ref ref : call) {
+		    idsDasTags.add(ref.getObjectId());
+		}
 		// a RevWalk allows to walk over commits based on some filtering that is defined
 		try {
-			//System.out.println(repository.getBranch());
+			//Usar este ID para obter o ficheiro master mas não é preciso
 			ObjectId lastCommitId = repository.resolve(Constants.HEAD);
 			RevWalk revWalk = new RevWalk(repository);
-			RevCommit commit = revWalk.parseCommit(lastCommitId);
-			// and using commit's tree find the path
-			RevTree tree = commit.getTree();
-			// now try to find a specific file
+			//Percorrer a lista criada de tags, e procurar commits com o ID das tags
+			for(int i = 0; i<idsDasTags.size(); i++) {
+				//Encontrar o commit com id da tag i
+				RevCommit commit = revWalk.parseCommit(idsDasTags.get(i));
+				
+				//Receber informação do commit
+				PersonIdent author = commit.getAuthorIdent();
+				Date timestamp = author.getWhen();
+				String fileTag = call.get(i).getName();
+				String tagDescription = commit.getShortMessage();
+				//Fim da primeira parte
+				
+				RevTree tree = commit.getTree();
+				// e depois faz o download do covid19spreading.rdf
 			try {
 				TreeWalk treeWalk = new TreeWalk(repository);
 				treeWalk.addTree(tree);
@@ -75,13 +128,20 @@ public class Utils {
 				// and then one can the loader to read the file
 				//loader.copyTo(System.out);
 				byte[] bytes = loader.getBytes();
-				FileOutputStream fos = new FileOutputStream("covid19spreading.rdf");
+				FileOutputStream fos = new FileOutputStream("covid19spreading"+i+".rdf");
+				
+				//continuação de recolha de informação do commit
+				String fileName = "covid19spreading"+i+".rdf";
+				informations.add(new fileInformation(timestamp, fileName, fileTag, tagDescription ));
+				//Fim de recolha de informação
+				
+				//System.out.println("Vou escrever o " + fos.toString());
 				fos.write(bytes);
 				fos.close();
 				treeWalk.close();
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			}}
 			
 			revWalk.close();
 		} catch (IOException e) {
@@ -89,7 +149,36 @@ public class Utils {
 		}
 
 	}
+	
+	
+	public List<fileInformation> getInformations() {
+		try {
+			readFile();
+		} catch (RevisionSyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoHeadException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (GitAPIException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return informations;
+	}
+
 	public static void main(String[] args) {
-		new Utils().readFile();
+		try {
+			new Utils().readFile();
+		} catch (RevisionSyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoHeadException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (GitAPIException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -233,9 +233,8 @@ public class CovidSciDiscoveries {
 
 	public static void main (String[]args) {
 		
-		/** para correr em ciclos do java e não quando for chamado o JAR
-		CovidSciDiscoveries test0 = new CovidSciDiscoveries("\\C:\\Users\\L3g4c\\Desktop\\pdfs","C:\\Users\\L3g4c\\git\\ES2-2020-EIC2-26\\Parte3HTML.html");
-		CovidSciDiscoveries test = new CovidSciDiscoveries(System.getProperty("user.home") + "/Desktop/pdfs",System.getProperty("user.home") + "/Desktop");
+	
+		CovidSciDiscoveries test = new CovidSciDiscoveries("\\C:\\Users\\L3g4c\\Desktop\\pdfs","C:\\Users\\L3g4c\\git\\ES2-2020-EIC2-26\\Parte3HTML.html");
 		test.writeHTML();
 		System.out.println("HTML foi escrito com sucesso");
 		
@@ -249,10 +248,11 @@ public class CovidSciDiscoveries {
 				e.printStackTrace();
 			}
 		}
-		**/
-		
+
+		/**
 		CovidSciDiscoveries test = new CovidSciDiscoveries(System.getProperty("user.home") + "/Desktop",System.getProperty("user.home") + "/Desktop");
 		test.run();
+		**/
 	}
 	
 }
