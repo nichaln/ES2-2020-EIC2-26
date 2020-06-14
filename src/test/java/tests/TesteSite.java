@@ -2,6 +2,7 @@ package tests;
 
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -90,6 +91,7 @@ public class TesteSite {
 
 	@Test
 	public void test() {
+		
 		String type;
 
 		int j = 1;
@@ -260,7 +262,7 @@ public class TesteSite {
 				    		"<html>\r\n" + 
 				    		"<head>\r\n" + 
 				    		"<meta charset=\"ISO-8859-1\">\r\n" + 
-				    		"<title>Links Avalability</title>\r\n" + 
+				    		"<title>Links Availability</title>\r\n" + 
 				    		"</head>\r\n" + 
 				    		"\r\n" +
 				    		"<style>\r\n"+
