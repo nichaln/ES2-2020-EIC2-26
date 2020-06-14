@@ -17,7 +17,7 @@
 
 -->
 <properties>
-	<entry key="email">nanok@iscte-iul.pt</entry>
+	<entry key="email">nanok@iscte-iul.pt</entry> <!-- Email para o qual enviar os dados dos erros -->
 
 	<!-- Link1 -->
 	<entry key="type1">link</entry>
@@ -26,63 +26,63 @@
 	
 	<!-- Link2 -->
 	<entry key="type2">form</entry>
-	<entry key="type2_url">https://fenix.iscte-iul.pt/loginPage.jsp</entry>
-	<entry key="type2_pagename">Comunicação - ISCTE-IUL - ISCTE - Instituto Universitário de Lisboa</entry>
-	<entry key="type2_inputs">username,password</entry>
-	<entry key="type2_username">nanok@iscte-iul.pt</entry>
-	<entry key="type2_password"></entry>
+	<entry key="type2_url">http://192.168.99.100/login/</entry>
+	<entry key="type2_pagename">Nichal Narotamo | Engenharia de Software II, 2º Semestre 2019/2020, Licenciatura em LEI/LIGE/LETI</entry>
+	<entry key="type2_inputs">username-143,user_password-143</entry>
+	<entry key="type2_username-143">nichal.1999@gmail.com</entry>
+	<entry key="type2_user_password-143">Nichalnichal123</entry>
 	
 	<!-- Link3 -->
 	<entry key="type3">link</entry>
-	<entry key="type3_url">http://192.168.99.100:80/home</entry>
-	<entry key="type3_pagename">HOME</entry>
+	<entry key="type3_url">http://192.168.99.100:80</entry>
+	<entry key="type3_pagename">Engenharia de Software II, 2º Semestre 2019/2020, Licenciatura em LEI/LIGE/LETI</entry>
 	
 	<!--  Link4 -->
 	<entry key="type4">link</entry>
-	<entry key="type4_url">http://192.168.99.100:80/CovidScientificDiscoveries</entry>
-	<entry key="type4_pagename">Covid Scientific Discoveries</entry>
+	<entry key="type4_url">http://192.168.99.100/covid-scientific-discoveries/</entry>
+	<entry key="type4_pagename">Covid Scientific Discoveries – Engenharia de Software II, 2º Semestre 2019/2020, Licenciatura em LEI/LIGE/LETI</entry>
 	
 	<!--  Link5 -->
 	<entry key="type5">link</entry>
-	<entry key="type5_url">http://192.168.99.100:80/CovidSpread</entry>
-	<entry key="type5_pagename">Covid Spread</entry>
+	<entry key="type5_url">http://192.168.99.100/covid-spread/</entry>
+	<entry key="type5_pagename">Covid Spread – Engenharia de Software II, 2º Semestre 2019/2020, Licenciatura em LEI/LIGE/LETI</entry>
 	
 	<!--  Link6 TEM DE SER ALTERADO PARA FORM-->
 	<entry key="type6">link</entry>
-	<entry key="type6_url">http://192.168.99.100:80/CovidQueries</entry>
-	<entry key="type6_pagename">Covid Queries</entry>
+	<entry key="type6_url">http://192.168.99.100/covid-queries/</entry>
+	<entry key="type6_pagename">Covid Queries – Engenharia de Software II, 2º Semestre 2019/2020, Licenciatura em LEI/LIGE/LETI</entry>
 	
 	<!--  Link7 -->
 	<entry key="type7">link</entry>
-	<entry key="type7_url">http://192.168.99.100:80/CovidEvolution</entry>
-	<entry key="type7_pagename">Covid Evolution</entry>
+	<entry key="type7_url">http://192.168.99.100/covid-evolution/</entry>
+	<entry key="type7_pagename">Covid Evolution – Engenharia de Software II, 2º Semestre 2019/2020, Licenciatura em LEI/LIGE/LETI</entry>
 	
 	<!--  Link8 -->
 	<entry key="type8">link</entry>
-	<entry key="type8_url">http://192.168.99.100:80/CovidWiki</entry>
-	<entry key="type8_pagename">Covid Wiki</entry>
+	<entry key="type8_url">http://192.168.99.100/wiki/covid-wiki/</entry>
+	<entry key="type8_pagename">Covid Wiki – Engenharia de Software II, 2º Semestre 2019/2020, Licenciatura em LEI/LIGE/LETI</entry>
 	
 	<!--  Link9 -->
 	<entry key="type9">link</entry>
-	<entry key="type9_url">http://192.168.99.100:80/FAQ</entry>
-	<entry key="type9_pagename">FAQ</entry>
+	<entry key="type9_url">http://192.168.99.100/faq/</entry>
+	<entry key="type9_pagename">FAQ – Engenharia de Software II, 2º Semestre 2019/2020, Licenciatura em LEI/LIGE/LETI</entry>
 	
 	<!--  Link10 -->
 	<entry key="type10">form</entry>
 	<entry key="type10_url">http://192.168.99.100/contact-us/</entry>
-	<entry key="type10_pagename">Página não encontrada – ES2-2020-EIC2-26</entry>
-	<entry key="type10_inputs">subject,message,visitor_email</entry>
-	<entry key="type10_subject">TestSubject</entry>
-	<entry key="type10_message">TestMessage</entry>
-	<entry key="type10_visitor_email">es2-2020-eic2-26@sapo.pt</entry>
+	<entry key="type10_pagename">Contact Us – Engenharia de Software II, 2º Semestre 2019/2020, Licenciatura em LEI/LIGE/LETI</entry>
+	<entry key="type10_inputs">wpforms-139-field_0,wpforms-139-field_1,wpforms-139-field_2</entry>
+	<entry key="type10_wpforms-139-field_0">TestSubject</entry>
+	<entry key="type10_wpforms-139-field_1">es2-2020-eic2-26@gmail.com</entry>
+	<entry key="type10_wpforms-139-field_2">TestMessage</entry>
 	
 	<!--  Link11 -->
 	<entry key="type11">form</entry>
-	<entry key="type11_url">http://192.168.99.100:80/JoinUs</entry>
+	<entry key="type11_url">http://192.168.99.100/join-us/</entry>
 	<entry key="type11_pagename">Home</entry>
-	<entry key="type11_inputs">name,surname,affiliation,country,email_address,keywords_of_interest</entry>
-	<entry key="type11_name">TestName</entry>
-	<entry key="type11_surname">TestSurname</entry>
+	<entry key="type11_inputs">first_name-142,last_name-142,affiliation,country,email_address,keywords_of_interest</entry>
+	<entry key="type11_first_name-142">TestName</entry>
+	<entry key="type11_last_name-142">TestSurname</entry>
 	<entry key="type11_affiliation">TestAffiliation</entry>
 	<entry key="type11_country">TestCountry</entry>
 	<entry key="type11_email_address">es2-2020-eic2-26@sapo.pt</entry>
@@ -92,18 +92,18 @@
 	
 	<!--  Link12 -->
 	<entry key="type12">link</entry>
-	<entry key="type12_url">http://192.168.99.100:80/AboutUs</entry>
-	<entry key="type12_pagename">About Us</entry>
+	<entry key="type12_url">http://192.168.99.100/about-us/</entry>
+	<entry key="type12_pagename">About Us – Engenharia de Software II, 2º Semestre 2019/2020, Licenciatura em LEI/LIGE/LETI</entry>
 	
 	<!--  Link13 -->
 	<entry key="type13">link</entry>
-	<entry key="type13_url">http://192.168.99.100:80/CovidScientificDiscoveriesRepository</entry>
-	<entry key="type13_pagename">FAQ</entry>
+	<entry key="type13_url">http://192.168.99.100/covid-scientific-discoveries-repository/</entry>
+	<entry key="type13_pagename">Covid Scientific Discoveries Repository – Engenharia de Software II, 2º Semestre 2019/2020, Licenciatura em LEI/LIGE/LETI</entry>
 	
 	<!--  Link14 -->
 	<entry key="type14">link</entry>
 	<entry key="type14_url">http://192.168.99.100/web-site-analytics/</entry>
-	<entry key="type14_pagename">Web site analytics – ES2-2020-EIC2-26</entry>
+	<entry key="type14_pagename">Web Site Analytics – Engenharia de Software II, 2º Semestre 2019/2020, Licenciatura em LEI/LIGE/LETI</entry>
 	
 	<!--  Link15 -->
 	<entry key="type15">link</entry>

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -15,22 +16,15 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
+import javax.xml.xpath.*;
 import javax.xml.parsers.DocumentBuilder;
-import org.w3c.dom.Document;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
+import org.apache.commons.lang3.StringUtils;
 
-public class CovidQuery {
-
-	public CovidQuery() {
-
-	}
-
-	void downloadFile() {
+public class CovidFormCreator {
+	
+	private static void downloadFile() {
 		Repository repository = app.Utils.getGitRepository();
 		try {
 			ObjectId lastCommitId = repository.resolve(Constants.HEAD);
@@ -65,7 +59,7 @@ public class CovidQuery {
 		}
 	}
 	
-	private Document openDocument() {
+	static Document openDocument() {
 		File inputFile = new File("covid19spreading.rdf");
 		if(!inputFile.isFile()) {
 			downloadFile();
@@ -87,49 +81,89 @@ public class CovidQuery {
 		return doc;
 	}
 	
-	public void performQuery(String query) {
-		Document doc = openDocument();
+	private static ArrayList<String> getRegions() {
+		ArrayList<String> arrayList = new ArrayList<String>();
+		String query = "/RDF/NamedIndividual/@*";
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		XPath xpath = xpathFactory.newXPath();
+		XPathExpression expr;
 		try {
-			XPathExpression expr = xpath.compile(query);
-			System.out.println(expr.evaluate(doc, XPathConstants.STRING));
+			expr = xpath.compile(query);
+			NodeList nl = (NodeList) expr.evaluate(openDocument(), XPathConstants.NODESET);
+			for (int i = 0; i < nl.getLength(); i++) {
+//				System.out.println(nl.item(i).getNodeValue());
+				arrayList.add(StringUtils.substringAfter(nl.item(i).getNodeValue(), "#"));
+			}
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();
 		}
+		return arrayList;
 	}
 	
-	public void createHTMLForm() {
+	private static ArrayList<String> getDatatypeProperty() {
+		ArrayList<String> arrayList = new ArrayList<String>();
+		String query = "/RDF/DatatypeProperty/@*";
+		XPathFactory xpathFactory = XPathFactory.newInstance();
+		XPath xpath = xpathFactory.newXPath();
+		XPathExpression expr;
+		try {
+			expr = xpath.compile(query);
+			NodeList nl = (NodeList) expr.evaluate(openDocument(), XPathConstants.NODESET);
+			for (int i = 0; i < nl.getLength(); i++) {
+//				System.out.println(nl.item(i).getNodeValue());
+				arrayList.add(StringUtils.substringAfter(nl.item(i).getNodeValue(), "#"));
+			}
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		return arrayList;
+	}
+	
+	public static void createHTMLForm() {
 		FileWriter fWriter = null;
 		BufferedWriter writer = null;
 		try {
 			fWriter = new FileWriter("C:\\Users\\jmjmf\\git\\ES2-2020-EIC2-26\\src\\main\\java\\covid_query\\formulario.html");
 			writer = new BufferedWriter(fWriter);
-			writer.write("<!DOCTYPE html>\r\n" + 
-			    		"<html>\r\n" + 
-			    		"<head>\r\n" + 
-			    		"<meta charset=\"ISO-8859-1\">\r\n" + 
-			    		"<title>Covid Query</title>\r\n" +
-			    		"<h1>Welcome to Covid Query</h1>\r\n" +
-			    		"</head>\r\n" + 
-			    		"\r\n" +
-			    		"<style>\r\n" +
-			    		//Definir estilo (?)
-			    		"</style>\r\n" +
-			    		"<body>\r\n" + 
-			    		/*
-			    		 * Corpo !
-			    		 */
-			    		"	<form action=\"CENINHA DO CGI AHHHHHHHHH\" method=\"get\">\r\n" +
-			    		"		<select id=\"Regiao\" name=\"Regiao\">\r\n" +
-			    		"			<option value=\"1\">1</option>\r\n" +
-			    		"			<option value=\"2\">2</option>\r\n" +
-			    		"			<option value=\"3\">3</option>\r\n" +
-			    		"			<option value=\"4\">4</option>\r\n" +
-			    		"		</select>\r\n" +
-			    		"	</form>\r\n" + 
-			    		"</body>\r\n" + 
-			    		"</html>");
+			String codigohtml =
+				"<!DOCTYPE html>\r\n" + 
+	    		"<html>\r\n" + 
+	    		"<head>\r\n" + 
+	    		"<meta charset=\"ISO-8859-1\">\r\n" + 
+	    		"<title>Covid Query</title>\r\n" +
+	    		"<h1>Welcome to Covid Query</h1>\r\n" +
+	    		"</head>\r\n" + 
+	    		"\r\n" +
+	    		"<style>\r\n" +
+	    		//Definir estilo (?)
+	    		"</style>\r\n" +
+	    		"<body>\r\n" + 
+	    		/*
+	    		 * Corpo !
+	    		 */
+	    		"	<form action=\"http://192.168.99.100/cgi-bin/cgi-java.sh\" method=\"POST\">\r\n" +
+	    		"		<label for=\"Regiao\">Região:</label>\r\n" +
+	    		"		<select id=\"Regiao\" name=\"Regiao\">\r\n";
+			for(String s : getRegions()) {
+				codigohtml+= "		<option value="+s+">"+s+"</option>\r\n";
+			}
+				codigohtml+=
+				"		</select><p>\r\n" +
+			    "		<label for=\"Propriedade\">Propriedade:</label>\r\n" +
+				"		<select id=\"Propriedade\" name=\"Propriedade\">\r\n";
+			for(String s : getDatatypeProperty()) {
+				codigohtml+= "		<option value="+s+">"+s+"</option>\r\n";
+			}
+				codigohtml+=
+				"		</select>\r\n";
+			    		
+			    		
+	    		codigohtml +=
+	    		"		<p><input type=\"submit\" value=\"Submit\">\r\n" +
+	    		"	</form>\r\n" + 
+	    		"</body>\r\n" + 
+	    		"</html>";
+			writer.write(codigohtml);
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -138,9 +172,8 @@ public class CovidQuery {
 
 	public static void main(String[] args) {
 		
-		CovidQuery test = new CovidQuery();
-		test.performQuery("//*[contains(@about,'Algarve')]/Internamentos/text()");
-		test.createHTMLForm();
+//		test.performQuery("//*[contains(@about,'Algarve')]/Internamentos/text()");
+		CovidFormCreator.createHTMLForm();
 
 		/*try {
 			String query = "/RDF/NamedIndividual/@*";
