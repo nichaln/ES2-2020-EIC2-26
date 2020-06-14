@@ -17,10 +17,10 @@ public class CovidQueryHandler {
 		//TODO switch case of different queries
 		
 		String query = "//*[contains(@about,'"+Regiao+"')]/"+Propriedade+"/text()";
-		performQuery(query);
+		writeHTML(performQuery(query));
 	}
 	
-	private static void performQuery(String query) {
+	private static Object performQuery(String query) {
 		Document doc = CovidFormCreator.openDocument();
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		XPath xpath = xpathFactory.newXPath();
@@ -31,7 +31,7 @@ public class CovidQueryHandler {
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();
 		}
-		writeHTML(results);
+		return results;
 	}
 	
 	private static void writeHTML(Object results) {
@@ -42,16 +42,17 @@ public class CovidQueryHandler {
 	}
 	
 	public static void main(String[] args) {
-//	      System.out.println(cgi_lib.Header());
+		System.out.println(cgi_lib.Header());
+		
 
 	      // Parse the form data into a Hashtable.
-	      Hashtable form_data = cgi_lib.ReadParse(System.in);
+		Hashtable form_data = cgi_lib.ReadParse(System.in);
 	      
-//	      System.out.println(cgi_lib.Variables(form_data));
-	      String Regiao = form_data.get("Regiao").toString();
-	      String Propriedade = form_data.get("Propriedade").toString();
-	      CovidQueryHandler.parseQuery(Regiao, Propriedade);
+//	    System.out.println(cgi_lib.Variables(form_data));
+		String Regiao = form_data.get("Regiao").toString();
+		String Propriedade = form_data.get("Propriedade").toString();
+		CovidQueryHandler.parseQuery(Regiao, Propriedade);
 	      
-//	      System.out.println(cgi_lib.HtmlBot());
+//	    System.out.println(cgi_lib.HtmlBot());
 	}
 }

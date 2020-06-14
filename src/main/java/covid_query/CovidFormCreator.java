@@ -141,7 +141,7 @@ public class CovidFormCreator {
 	    		/*
 	    		 * Corpo !
 	    		 */
-	    		"	<form action=\"cgi-bin/cgi-java.sh\" method=\"get\">\r\n" +
+	    		"	<form action=\"http://192.168.99.100/cgi-bin/cgi-java.sh\" method=\"POST\">\r\n" +
 	    		"		<label for=\"Regiao\">Região:</label>\r\n" +
 	    		"		<select id=\"Regiao\" name=\"Regiao\">\r\n";
 			for(String s : getRegions()) {
@@ -159,7 +159,7 @@ public class CovidFormCreator {
 			    		
 			    		
 	    		codigohtml +=
-	    		"		<p><input type=\"submit\" value=\"Submit\">" +
+	    		"		<p><input type=\"submit\" value=\"Submit\">\r\n" +
 	    		"	</form>\r\n" + 
 	    		"</body>\r\n" + 
 	    		"</html>";
