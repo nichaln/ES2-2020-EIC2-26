@@ -36,7 +36,11 @@ Como para o requisito 2 é preciso verificar a disponibilidade do email, será p
 
 Copiar o conteúdo que está dentro da pasta mysql para C:/Users/Wordpress/db_data
 
-Copiar a pasta html para C:/Users/Wordpress/html
+Copiar a pasta html para C:/Users/Wordpress/
+
+Copiar a pasta cgi-bin para C:/Users/wordpress/
+
+Neste ponto deverão existir 3 pastas na diretoria C:/Users/Wordpress/ .
 
 Copiar o ficheiro docker-compose-yml para dentro da pasta C:/Users/Wordpress (as imagens são descarregadas do dockerHub)
 
