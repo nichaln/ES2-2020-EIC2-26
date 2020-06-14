@@ -29,18 +29,25 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.apache.commons.io.FileUtils;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;;
 
+/**
+ * 
+ * @author afdbo-iscteiul
+ * @since 2020-06-14
+ */
 public class CovidEvolutionDif {
 
 	List<Ref> call;
 	Map<ObjectId,Date> map = new HashMap<ObjectId,Date>();
 	List<ObjectId> ids = new LinkedList<ObjectId>();
 
+	/**
+	 * Vai buscar a referencia de todos os commits com tags 
+	 * e guarda todas as tags desses commits numa lista
+	 */
 	void getTags() {
-		//Buscar referencias para commits com tags e criar uma lista com todas as tags	
 		try {
 			call =  app.Utils.getGit().tagList().call();
 		} catch (GitAPIException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		for (Ref ref : call) {
@@ -48,25 +55,26 @@ public class CovidEvolutionDif {
 		}
 	}
 	
+	/**
+	 * Percorre a lista de tags existentes e procura os commits 
+	 * associados ao id de cada tag. Depois guarda numa lista a 
+	 * data associada a cada tag da lista de tags
+	 * 
+	 */
 	void getDates() {
 		Repository repository = app.Utils.getGitRepository();
 			RevWalk revWalk = new RevWalk(repository);
-			//Percorrer a lista criada de tags, e procurar commits com o ID das tags
 			for(int i = 0; i<ids.size(); i++) {
-				//Encontrar o commit com id da tag i
 				RevCommit commit = null;
 				try {
 					commit = revWalk.parseCommit(ids.get(i));
 				} catch (MissingObjectException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IncorrectObjectTypeException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				} 
 
 					//Datas
 				PersonIdent author = commit.getAuthorIdent();
@@ -77,6 +85,12 @@ public class CovidEvolutionDif {
 			revWalk.close();
 	}
 	
+	/**
+	 * Acede a lista de datas e compara as datas associadas aos 
+	 * ObjectIds e devolve o ObjectId com a data mais recente
+	 * 
+	 * @return ObjectId Devolve o ObjectId mais recente da lista de datas
+	 */
 	ObjectId mostRecent() { 
 		Date timestamp = new Date(0L);
 		ObjectId id = null;
@@ -91,18 +105,23 @@ public class CovidEvolutionDif {
 		return id;
 	}
 	
+	/**
+	 * Acede ao repositorio git https://github.com/vbasto-iscte/ESII1920.git
+	 * e descarrega as duas versoes mais recentes com tags associadas do 
+	 * documento covid19spreading.rdf. Estes documentos vao ser guardados com
+	 * os nomes covid19spreading_recent0.rdf e covid19spreading_recent1.rdf
+	 * 
+	 */
 	void getFiles() {
 		getTags();
 		getDates();
 		Repository repository = app.Utils.getGitRepository();
 		try {
 			RevWalk revWalk = new RevWalk(repository);
-			//Percorrer a lista criada de tags, e procurar commits com o ID das tags
 			for(int i = 0; i<2; i++) {
 				//Encontrar o commit com id da tag i
 				RevCommit commit = revWalk.parseCommit(mostRecent());
 				RevTree tree = commit.getTree();
-				// e depois faz o download do covid19spreading.rdf
 				try {
 					TreeWalk treeWalk = new TreeWalk(repository);
 					treeWalk.addTree(tree);
@@ -115,8 +134,6 @@ public class CovidEvolutionDif {
 
 					ObjectId objectId = treeWalk.getObjectId(0);
 					ObjectLoader loader = repository.open(objectId);
-					// and then one can the loader to read the file
-					//loader.copyTo(System.out);
 					byte[] bytes = loader.getBytes();
 					FileOutputStream fos = new FileOutputStream("covid19spreading_recent"+i+".rdf");
 
@@ -134,12 +151,18 @@ public class CovidEvolutionDif {
 
 	}
 	
+	/**
+	 * Escreve o ficheiro html onde apresenta os dois documentos
+	 * covid19spreading_recent0.rdf (documento mais recente) e 
+	 * covid19spreading_recent1.rdf (documento antes do mais recente)
+	 * lado a lado destancando as diferencas que existem entre ambos
+	 */
 	public void writeHTML() {
 		getFiles();
 		FileWriter fWriter = null;
 		BufferedWriter writer = null;
 		try {
-		    fWriter = new FileWriter("C:\\Users\\Catando\\git\\ES2-2020-EIC2-26\\src\\main\\java\\covid_evolution_dif\\presentDocs.html");
+		    fWriter = new FileWriter(System.getProperty("user.home") + "\\Wordpress\\html\\wp-admin\\presentDocs.html");
 		    writer = new BufferedWriter(fWriter);
 		    writer.write("<!DOCTYPE html>\r\n" + 
 		    		"<html>\r\n" + 
@@ -151,11 +174,11 @@ public class CovidEvolutionDif {
 		    		"<body>\r\n" + 
 		    		"	<div style=\"width: 100%; display: inline-block;\">\r\n" +
 		    	    "		<div style=\"width: 49.5%; float: left;\">\r\n" +
-		    	    "			<h2>DOC1</h2>\r\n"+
+		    	    "			<h2>Mais Recente</h2>\r\n"+
 		    	    "				" + writeDocs().get(0) +
 		    	    "		</div>\r\n" +
 		    	    "		<div style=\"margin-left: 50.5%;\">\r\n" +
-		    	    "			<h2>DOC2</h2>\r\n"+
+		    	    "			<h2>Antes do Mais Recente</h2>\r\n"+
 		    	    "				" + writeDocs().get(1) +
 		    	    "		</div>\r\n" +
 		        	"	</div>\r\n" +
@@ -163,34 +186,44 @@ public class CovidEvolutionDif {
 		    		"</html>");
 		    writer.close();	    
 		} catch (Exception e) {
-		  //catch any exceptions here
 		}
 	}
 
+	/**
+	 * Abre os dois documentos descarregados do repositorio git e
+	 * compara as diferencas entre ambos. Guarda o texto que e correspondente 
+	 * na primeira posicao ate encontrar caracteres diferentes. Quando encontra 
+	 * caracteres diferentes guarda os caracteres do primeiro documento que diferem 
+	 * na segunda posicao e na terceira posicao os caracteres que diferem 
+	 * do segundo documento. Depois reconstroi os dois documentos adicionando as
+	 * marcas html <mark> e </mark> para destacar as diferencas entre ambos.
+	 * 
+	 * @return List<String> Devolve uma lista com duas strings com 
+	 * o texto a ser colocado no ficheiro html, primeiro o mais recente 
+	 * e em segundo o antes do mais recente
+	 */
 	List<String> writeDocs(){
 		
 		List<String> list = new ArrayList<String>();
 		
-		File file0=new File("C:\\Users\\Catando\\git\\ES2-2020-EIC2-26\\covid19spreading_recent0.rdf");   
-		File file1=new File("C:\\Users\\Catando\\git\\ES2-2020-EIC2-26\\covid19spreading_recent1.rdf");
+		File file0=new File("covid19spreading_recent0.rdf");   
+		File file1=new File("covid19spreading_recent1.rdf");
 		String doc1="";
 		try {
 			doc1 = FileUtils.readFileToString(file0, "UTF-8");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String doc2="";
 		try {
 			doc2 = FileUtils.readFileToString(file1, "UTF-8");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		DiffMatchPatch dmp = new DiffMatchPatch();
 		LinkedList<DiffMatchPatch.Diff> diff = dmp.diffMain(doc1, doc2);
-		dmp.diffPrettyHtml(diff);
+		dmp.diffCleanupSemantic(diff);
 		
 		String html0="<p>";
 		String html1="<p>";
