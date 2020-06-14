@@ -12,14 +12,14 @@ Pedro Fonseca 82131 pgvbm@iscte-iul.pt
 Stefan Tataru 78965 stunt@iscte-iul.pt
 
 
-Funcionalidades não implementadas:
+ **Funcionalidades não implementadas:**
 
 O grupo não conseguiu correr ficheiros Junit dentro do container.
 
 
 
 
-Funcionalidades com erros/parcialmente implementadas:
+**Funcionalidades com erros/parcialmente implementadas:**
 
 No requisito 2, para efetuar a verificação a cada duas horas, não conseguimos por o ficheiro de testes a correr dentro do container
 (devido a falta de dependências).
@@ -32,7 +32,7 @@ Como para o requisito 2 é preciso verificar a disponibilidade do email,
 
 
 
-Instruções de utilização:
+**Instruções de utilização:**
 
 Fazer o unzip da pasta mysql, e copiar o conteúdo que está dentro dessa pasta para C:/Users/Wordpress/db_data
 
