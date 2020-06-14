@@ -14,7 +14,7 @@ Stefan Tataru 78965
 
 Funcionalidades não implementadas:
 
-O grupo não conseguiu correr ficheiros .jar dentro do container.
+O grupo não conseguiu correr ficheiros Junit dentro do container.
 
 
 
