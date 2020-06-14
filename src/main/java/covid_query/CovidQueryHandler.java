@@ -20,7 +20,7 @@ public class CovidQueryHandler {
 		performQuery(query);
 	}
 	
-	public static void performQuery(String query) {
+	private static void performQuery(String query) {
 		Document doc = CovidFormCreator.openDocument();
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		XPath xpath = xpathFactory.newXPath();
@@ -47,7 +47,7 @@ public class CovidQueryHandler {
 	      // Parse the form data into a Hashtable.
 	      Hashtable form_data = cgi_lib.ReadParse(System.in);
 	      
-	      System.out.println(cgi_lib.Variables(form_data));
+//	      System.out.println(cgi_lib.Variables(form_data));
 	      String Regiao = form_data.get("Regiao").toString();
 	      String Propriedade = form_data.get("Propriedade").toString();
 	      CovidQueryHandler.parseQuery(Regiao, Propriedade);
