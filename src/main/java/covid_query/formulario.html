@@ -9,13 +9,21 @@
 <style>
 </style>
 <body>
-	<form action="CENINHA DO CGI AHHHHHHHHH" method="get">
+	<form action="cgi-bin/cgi-java.sh" method="get">
+		<label for="Regiao">Região:</label>
 		<select id="Regiao" name="Regiao">
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
+		<option value=Alentejo>Alentejo</option>
+		<option value=Algarve>Algarve</option>
+		<option value=Centro>Centro</option>
+		<option value=Lisboa>Lisboa</option>
+		<option value=Norte>Norte</option>
+		</select><p>
+		<label for="Propriedade">Propriedade:</label>
+		<select id="Propriedade" name="Propriedade">
+		<option value=Infecoes>Infecoes</option>
+		<option value=Internamentos>Internamentos</option>
+		<option value=Testes>Testes</option>
 		</select>
-	</form>
+		<p><input type="submit" value="Submit">	</form>
 </body>
 </html>
