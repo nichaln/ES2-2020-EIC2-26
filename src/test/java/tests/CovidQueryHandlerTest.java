@@ -1,21 +1,14 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
 
-import java.util.ArrayList;
+import covid_query.CovidQueryHandler;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-
-class CovidQueryHandlerTest {
+public class CovidQueryHandlerTest {
 
 	@Test
-	void test() {
-		fail("Not yet implemented");
+	public void testMain() {
+		CovidQueryHandler.main(null);
 	}
 
 }

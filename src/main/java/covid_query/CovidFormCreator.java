@@ -151,6 +151,7 @@ public class CovidFormCreator {
 		BufferedWriter writer = null;
 		try {
 			String path = System.getProperty("user.home") + "\\wordpress\\html\\wp-admin\\formulario.html";
+//			String path = "C:\\Users\\jmjmf\\git\\ES2-2020-EIC2-26\\src\\main\\java\\covid_query\\formulario.html";
 			fWriter = new FileWriter(path);
 			writer = new BufferedWriter(fWriter);
 			String codigohtml = "<!DOCTYPE html>\r\n" + "<html>\r\n" + "<head>\r\n"
@@ -161,7 +162,7 @@ public class CovidFormCreator {
 					/*
 					 * Corpo !
 					 */
-					"	<form action=\"http://192.168.99.100/cgi-bin/cgi-java.sh\" method=\"POST\">\r\n"
+					"	<form action=\"http://192.168.99.100/cgi-bin/queryhandler-java.sh\" method=\"POST\">\r\n"
 					+ "		<label for=\"Regiao\">Região:</label>\r\n"
 					+ "		<select id=\"Regiao\" name=\"Regiao\">\r\n";
 			for (String s : getRegions()) {
