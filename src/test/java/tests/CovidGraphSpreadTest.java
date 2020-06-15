@@ -16,11 +16,6 @@ public class CovidGraphSpreadTest {
 	}
 
 	@Test
-	public void testGetLines() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testMain() {
 		CovidGraphSpread.main(null);
 	}
