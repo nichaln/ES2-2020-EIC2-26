@@ -244,7 +244,7 @@ public class CovidEvolutionDif {
 		return list ;
 	}
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		new CovidEvolutionDif().writeHTML();
 	}
 }
