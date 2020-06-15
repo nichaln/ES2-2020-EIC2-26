@@ -46,7 +46,7 @@ public class CovidSciDiscoveries {
 	/**
 	 * Metodo que corre sempre que a pagina HTML e acedida
 	 */
-	private void run() {
+	public void run() {
 		File fileHTML = new File(pathHTML);
 		if(fileHTML.exists() && !fileHTML.isDirectory()) {//caso exista um ficheiro HTML
 			List<URL> listURL = listDocumentsURL();//URLs presentes no diretorio 
@@ -82,7 +82,7 @@ public class CovidSciDiscoveries {
 	 * 
 	 * @return List<URL> 
 	 */
-	private List<URL> listDocumentsURL() {
+	public List<URL> listDocumentsURL() {
 		List<URL> listURL = new ArrayList<URL>();//lista que guarda os URL de todos os documentos pdf
 		File directory = new File(pathPDF); // especificacao do path
 			File[] fList = directory.listFiles();	
@@ -108,7 +108,7 @@ public class CovidSciDiscoveries {
 	 * 
 	 * @return List<URL>
 	 */
-	private List<URL> listHtmlURL() {
+	public List<URL> listHtmlURL() {
 		List<URL> htmlURL = new ArrayList<URL>();//lista que guarda os URLs dos documentos do HTML
 			
 		File input = new File(pathHTML);
@@ -131,7 +131,7 @@ public class CovidSciDiscoveries {
 	 * 
 	 * @param addListURL
 	 */
-	private void addURLs(List<URL> addListURL) {
+	public void addURLs(List<URL> addListURL) {
 		File input = new File(pathHTML);
 		try {
 			Document htmlFile = Jsoup.parse(input, "UTF-8");
@@ -154,7 +154,7 @@ public class CovidSciDiscoveries {
 	 * @param removeListURL
 	 */
 
-	private void removeURLs(List<URL> removeListURL) {
+	public void removeURLs(List<URL> removeListURL) {
 		File input = new File(pathHTML);
 		try {
 			Document htmlFile = Jsoup.parse(input, "UTF-8");
@@ -173,7 +173,7 @@ public class CovidSciDiscoveries {
 	 * Metodo que gera o fiheiro Parte3HTML.html com o codigo HTML
 	 * 
 	 */
-	private void writeHTML() {
+	public void writeHTML() {
 		try {
 			FileWriter fWriter = new FileWriter(new File(pathHTML));
 			BufferedWriter writer = new BufferedWriter(fWriter);
